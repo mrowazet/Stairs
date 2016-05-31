@@ -16,3 +16,8 @@ void Mode::setDelay(int ms)
 {
 	stepDelay = ms;
 }
+
+int Mode::getDelay()
+{
+	return stepDelay;
+}

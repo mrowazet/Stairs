@@ -14,6 +14,7 @@ class Mode
 	public:
 		Mode(int * stepsPtr, const int size);
 		void setDelay(int ms);
+		int getDelay();
 		virtual void turnOn() = 0;
 		virtual void turnOff() = 0;
 		virtual void clearStepNr() = 0;
@@ -22,7 +23,7 @@ class Mode
 	protected:
 		const int tabSize;
 		int * steps;
-		int stepDelay = 500;
+		int stepDelay = 300;
 		int stepNr = 0;
 };
 

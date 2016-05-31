@@ -13,7 +13,7 @@ Lights::Lights(const int nrSteps, const int firstPin)
 	enablerUp = new Mode_02(steps, nrOfSteps);		//default 02
 	disablerUp = new Mode_02(steps, nrOfSteps);		//default 02
 
-	immediatelyDisabler = new Mode_03(steps, nrOfSteps);	//default 03
+	immediatelySwitch = new Mode_03(steps, nrOfSteps);	//default 03
 }
 
 Lights::~Lights()
@@ -78,9 +78,14 @@ void Lights::setDisablerDelay(const int wantedDelay)
 	disablerUp->setDelay(wantedDelay);
 }
 
+void Lights::turnOnLightsImmediately()
+{
+	immediatelySwitch->turnOn();
+}
+
 void Lights::turnOffLightsImmediately()
 {
-	immediatelyDisabler->turnOff();
+	immediatelySwitch->turnOff();
 }
 
 void Lights::resetEnablersCounters()

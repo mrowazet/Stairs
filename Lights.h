@@ -19,6 +19,8 @@ public:
 
 	void turnOnLights(bool isDownSensor);
 	void turnOffLights(bool isDownSensor);
+
+	void turnOnLightsImmediately();
 	void turnOffLightsImmediately();
 	void resetEnablersCounters();
 
@@ -37,7 +39,7 @@ private:
 	Mode * disablerDown = nullptr;
 	Mode * enablerUp = nullptr;
 	Mode * disablerUp = nullptr;
-	Mode * immediatelyDisabler = nullptr;
+	Mode * immediatelySwitch = nullptr;
 
 	void init(const int firstPin);
 };
