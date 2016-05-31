@@ -76,4 +76,6 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <Mode_01.h>
 #include <Mode_02.cpp>
 #include <Mode_02.h>
+#include <Mode_03.cpp>
+#include <Mode_03.h>
 #endif

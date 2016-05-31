@@ -7,11 +7,14 @@ Mode_01::Mode_01(int * stepsPtr, const int size)
 
 void Mode_01::turnOn()
 {
-	for (int i = 0; i < tabSize; i++)
-	{
-		digitalWrite(steps[i], HIGH);
-		delay(stepDelay);
-	}
+	digitalWrite(steps[stepNr], HIGH);
+	delay(stepDelay);
+
+	stepNr++;
+
+	if (stepNr == tabSize)
+		stepNr = 0;
+	
 }
 
 void Mode_01::turnOff()
@@ -21,6 +24,11 @@ void Mode_01::turnOff()
 		digitalWrite(steps[i], LOW);
 		delay(stepDelay);
 	}
+}
+
+void Mode_01::clearStepNr()
+{
+	stepNr = 0;
 }
 
 Mode_01::~Mode_01()

@@ -2,24 +2,28 @@
 #include "Mode.h"
 #include "Mode_01.h"
 #include "Mode_02.h"
+#include "Mode_03.h"
 
 Lights::Lights(const int nrSteps, const int firstPin)
 	:nrOfSteps(nrSteps)
 {
 	init(firstPin);
-	enabler = new Mode_01(steps, nrOfSteps);
-	disabler = new Mode_01(steps, nrOfSteps);
+	enablerDown = new Mode_01(steps, nrOfSteps);	//default 01
+	disablerDown = new Mode_01(steps, nrOfSteps);	//default 01	
+	enablerUp = new Mode_02(steps, nrOfSteps);		//default 02
+	disablerUp = new Mode_02(steps, nrOfSteps);		//default 02
+
+	immediatelyDisabler = new Mode_03(steps, nrOfSteps);	//default 03
 }
 
 Lights::~Lights()
 {
 	delete[] steps;
 
-	if (enabler)
-		delete enabler;
-
-	if (disabler)
-		delete disabler;
+	if (enablerDown) delete enablerDown;
+	if (disablerDown) delete disablerDown;
+	if (enablerUp) delete enablerUp;
+	if (disablerUp) delete disablerUp;
 }
 
 void Lights::init(const int firstPin)
@@ -35,22 +39,52 @@ void Lights::init(const int firstPin)
 
 }
 
-void Lights::turnOnLights()
+void Lights::turnOnLights(bool isDownSensor)
 {
-	enabler->turnOn();
+	if (isDownSensor)
+		enablerDown->turnOn();
+	else
+		enablerUp->turnOn();
 }
 
-void Lights::turnOffLights()
+void Lights::turnOffLights(bool isDownSensor)
 {
-	disabler->turnOff();
+	if (isDownSensor)
+		disablerDown->turnOff();
+	else
+		enablerUp->turnOff();
+}
+
+bool Lights::isIlluminated()
+{
+	for (int i = 0; i < nrOfSteps; i++)
+	{
+		if (digitalRead(steps[i]) == LOW)
+			return false;
+	}
+
+	return true;
 }
 
 void Lights::setEnablerDelay(const int wantedDelay)
 {
-	enabler->setDelay(wantedDelay);
+	enablerDown->setDelay(wantedDelay);
+	enablerUp->setDelay(wantedDelay);
 }
 
 void Lights::setDisablerDelay(const int wantedDelay)
 {
-	disabler->setDelay(wantedDelay);
+	disablerDown->setDelay(wantedDelay);
+	disablerUp->setDelay(wantedDelay);
+}
+
+void Lights::turnOffLightsImmediately()
+{
+	immediatelyDisabler->turnOff();
+}
+
+void Lights::resetEnablersCounters()
+{
+	enablerDown->clearStepNr();
+	enablerUp->clearStepNr();
 }

@@ -17,8 +17,12 @@ public:
 	Lights(const int nrSteps, const int firstPin);
 	~Lights();
 
-	void turnOnLights();
-	void turnOffLights();
+	void turnOnLights(bool isDownSensor);
+	void turnOffLights(bool isDownSensor);
+	void turnOffLightsImmediately();
+	void resetEnablersCounters();
+
+	bool isIlluminated();
 
 	void changeEnabler();
 	void changeDisabler();
@@ -29,8 +33,11 @@ public:
 private:
 	const int nrOfSteps;
 	int * steps;
-	Mode * enabler = nullptr;
-	Mode * disabler = nullptr;
+	Mode * enablerDown = nullptr;
+	Mode * disablerDown = nullptr;
+	Mode * enablerUp = nullptr;
+	Mode * disablerUp = nullptr;
+	Mode * immediatelyDisabler = nullptr;
 
 	void init(const int firstPin);
 };

@@ -3,15 +3,18 @@
 Mode_02::Mode_02(int * stepsPtr, const int size)
 	:Mode(stepsPtr, size)
 {
+	clearStepNr();
 }
 
 void Mode_02::turnOn()
 {
-	for (int i = tabSize - 1; i > -1; i--)
-	{
-		digitalWrite(steps[i], HIGH);
-		delay(stepDelay);
-	}
+	stepNr--;
+
+	digitalWrite(steps[stepNr], HIGH);
+	delay(stepDelay);
+	
+	if (stepNr == 0)
+		stepNr = tabSize;
 }
 
 void Mode_02::turnOff()
@@ -21,6 +24,11 @@ void Mode_02::turnOff()
 		digitalWrite(steps[i], LOW);
 		delay(stepDelay);
 	}
+}
+
+void Mode_02::clearStepNr()
+{
+	stepNr = tabSize;
 }
 
 Mode_02::~Mode_02()

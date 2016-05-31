@@ -4,27 +4,39 @@
 //PARAMETERS
 enum class Parameters { nrOfSteps = 5, firstStepPin = 8 };
 
-// GLOBAL
-enum class Sensor { Up, Down, NONE };
-enum class State { IDLE, BUSY, ON };
-enum class Menu { Nothing, TurnOnMode, TurnOnStepDelay, TrunOffMode, TurnOffStepDelay, LitTimeDelay };
-
-Lights * lights;
-
+//CONSTANTS
 const int SelectPin = 4;
 const int SetPin = 5;
 const int SensorDown = 2;
 const int SensorUp = 3;
 
-Sensor activatedSensor = Sensor::NONE;
+const bool SensorDownstairs = true;
+const bool SensorUpstairs = false;
+
+// GLOBAL
+enum class State { IDLE, BUSY, ON };
+enum class Menu { Nothing, TurnOnMode, TurnOnStepDelay, TrunOffMode, TurnOffStepDelay, LitTimeDelay };
+
+Lights * lights;
+
+//test
+bool dol = true;
+bool gora = true;
+
+bool sensorDownActivated = false;
+bool sensorUpActivated = false;
+
+///
+
 State state = State::IDLE;
 Menu selectedMenu = Menu::Nothing;
-int litTime = 3000;
+int litTime = 1000;
 
 // FUNCTION PROTOTYPES
 void initSensors();
 void initButtons();
 int calculateDelayForLitTime(int &wantedTime);
+void turnOffIllumination();
 
 // SETUP
 void setup()
@@ -37,10 +49,31 @@ void setup()
 // MAIN LOOP
 void loop()
 {
-	lights->turnOnLights();
-	delay(litTime);
+	if (dol)
+	{
+		lights->turnOnLights(SensorDownstairs);
+		state = State::BUSY;
+		sensorDownActivated = true;
+	}
 
-	lights->turnOffLights();
+	if (gora)
+	{
+		lights->turnOnLights(SensorUpstairs);
+		state = State::BUSY;
+		sensorUpActivated = true;
+	}
+
+	if (lights->isIlluminated())
+	{
+		//test
+		delay(3000);
+		turnOffIllumination();
+		delay(1000);
+		lights->resetEnablersCounters();
+		sensorDownActivated = false;
+		sensorUpActivated = false;
+	}
+		
 }
 
 // FUNCTIONS DEFINITIONS
@@ -58,4 +91,17 @@ void initButtons()
 
 int calculateDelayForLitTime(int &wantedTime)
 {
+}
+
+void turnOffIllumination()
+{
+	if (sensorDownActivated && sensorUpActivated)
+		lights->turnOffLightsImmediately();	
+	else
+	{
+		if (sensorDownActivated)
+			lights->turnOffLights(SensorDownstairs);
+		if (sensorUpActivated)
+			lights->turnOffLights(SensorUpstairs);
+	}
 }

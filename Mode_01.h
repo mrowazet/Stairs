@@ -17,6 +17,7 @@ class Mode_01 : public Mode
 		Mode_01(int * stepsPtr, const int size);
 		virtual void turnOn();
 		virtual void turnOff();
+		virtual void clearStepNr();
 		virtual ~Mode_01();
 };
 

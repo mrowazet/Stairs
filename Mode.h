@@ -16,12 +16,14 @@ class Mode
 		void setDelay(int ms);
 		virtual void turnOn() = 0;
 		virtual void turnOff() = 0;
+		virtual void clearStepNr() = 0;
 		virtual ~Mode();
 
 	protected:
 		const int tabSize;
 		int * steps;
 		int stepDelay = 500;
+		int stepNr = 0;
 };
 
 #endif

@@ -1,7 +1,7 @@
-// Mode_02.h
+// Mode_03.h
 
-#ifndef _MODE_02_h
-#define _MODE_02_h
+#ifndef _MODE_03_h
+#define _MODE_03_h
 
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include "arduino.h"
@@ -11,14 +11,14 @@
 
 #include "Mode.h"
 
-class Mode_02 : public Mode
+class Mode_03 : public Mode
 {
 public:
-	Mode_02(int * stepsPtr, const int size);
+	Mode_03(int * stepsPtr, const int size);
 	virtual void turnOn();
 	virtual void turnOff();
 	virtual void clearStepNr();
-	virtual ~Mode_02();
+	virtual ~Mode_03();
 };
 
 #endif
