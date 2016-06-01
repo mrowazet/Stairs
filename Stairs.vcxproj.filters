@@ -36,6 +36,9 @@
     <ClInclude Include="Mode_03.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PowerSupplier.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Mode.cpp">
@@ -51,6 +54,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Mode_03.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PowerSupplier.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -78,4 +78,6 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <Mode_02.h>
 #include <Mode_03.cpp>
 #include <Mode_03.h>
+#include <PowerSupplier.cpp>
+#include <PowerSupplier.h>
 #endif

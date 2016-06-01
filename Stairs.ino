@@ -1,8 +1,21 @@
+#include "PowerSupplier.h"
 #include "Lights.h"
 #include "Mode.h"
 
 //PARAMETERS
-enum class Parameters { nrOfSteps = 5, firstStepPin = 8 };
+enum class Parameters
+{
+	nrOfSteps = 5,
+	firstStepPin = 8,
+	powerSupplierPin = 13,
+	sensorDownPin = 2,
+	sensorUpPin = 3,
+	sensorLightPin = 4,
+	selectButtonPin = 5,
+	setButtonPin = 6
+};
+						
+	
 
 //CONSTANTS
 const int SensorDown = 2;
@@ -10,7 +23,6 @@ const int SensorUp = 3;
 const int SensorLight = 4;
 const int SelectPin = 5;
 const int SetPin = 6;
-const int PowerSupplier = 13;
 
 const bool SensorDownstairs = true;
 const bool SensorUpstairs = false;
@@ -20,6 +32,7 @@ enum class State { IDLE, BUSY, ON };
 enum class Menu { Nothing, TurnOnMode, TurnOnStepDelay, TrunOffMode, TurnOffStepDelay, LitTimeDelay };
 
 Lights * lights;
+PowerSupplier * powerSupplier;
 
 //test
 bool dol = true;
@@ -27,7 +40,6 @@ bool gora = false;
 
 bool sensorDownActivated = false;
 bool sensorUpActivated = false;
-bool powerSupplierActivated = false;
 
 ///
 
@@ -38,25 +50,22 @@ int litTime = 3000;
 // FUNCTION PROTOTYPES
 void initSensors();
 void initButtons();
-void enablePowerSupplier();
-void disablePowerSupplier();
 int calculateDelayForLitTime(int &wantedTime);
 void turnOffIllumination();
 
 // SETUP
 void setup()
-{
-	pinMode(PowerSupplier, OUTPUT);
-	initSensors();
+{	initSensors();
 	initButtons();
 	lights = new Lights((int)Parameters::nrOfSteps, (int)Parameters::firstStepPin);
+	powerSupplier = new PowerSupplier((int)Parameters::powerSupplierPin);
 }
 
 // MAIN LOOP
 void loop()
 {
 	if (dol || gora)
-		enablePowerSupplier();
+		powerSupplier->enable();
 
 	if (dol && gora)
 		lights->turnOnLightsImmediately();
@@ -112,25 +121,11 @@ void turnOffIllumination()
 			lights->turnOffLights(SensorUpstairs);
 	}
 
-	disablePowerSupplier();
+	powerSupplier->disable();
 	lights->resetEnablersCounters();
 	sensorDownActivated = false;
 	sensorUpActivated = false;
 
 	//test
 	delay(3000);
-}
-
-void enablePowerSupplier()
-{
-	if (powerSupplierActivated == false)
-	{
-		digitalWrite(PowerSupplier, HIGH);
-		delay(100);	//zeby dac mu chwilke na zalaczenie!
-	}
-}
-
-void disablePowerSupplier()
-{
-	digitalWrite(PowerSupplier, LOW);
 }
