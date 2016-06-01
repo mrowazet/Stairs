@@ -4,7 +4,7 @@
 #include "Mode_02.h"
 #include "Mode_03.h"
 
-Lights::Lights(const int nrSteps, const int firstPin)
+Lights::Lights(const int & nrSteps, const int & firstPin)
 	:nrOfSteps(nrSteps)
 {
 	init(firstPin);
@@ -26,6 +26,26 @@ Lights::~Lights()
 	if (disablerUp) delete disablerUp;
 }
 
+void Lights::turnOnLightsDown()
+{
+	enablerDown->turnOn();
+}
+
+void Lights::turnOnLightsUp()
+{
+	enablerUp->turnOn();
+}
+
+void Lights::turnOffLightsDown()
+{
+	disablerDown->turnOff();
+}
+
+void Lights::turnOffLightsUp()
+{
+	disablerUp->turnOff();
+}
+
 void Lights::init(const int firstPin)
 {
 	int pin = firstPin;
@@ -37,22 +57,6 @@ void Lights::init(const int firstPin)
 		pin++;
 	}
 
-}
-
-void Lights::turnOnLights(bool isDownSensor)
-{
-	if (isDownSensor)
-		enablerDown->turnOn();
-	else
-		enablerUp->turnOn();
-}
-
-void Lights::turnOffLights(bool isDownSensor)
-{
-	if (isDownSensor)
-		disablerDown->turnOff();
-	else
-		enablerUp->turnOff();
 }
 
 bool Lights::isIlluminated()

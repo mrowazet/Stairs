@@ -13,11 +13,22 @@ enum class Parameters
 	sensorUpPin = 3,
 	sensorLightPin = 4,
 	selectButtonPin = 5,
-	setButtonPin = 6
+	setButtonPin = 6,
+	defaultLitTime = 3000
 };
 
 // GLOBAL
-enum class Menu { Nothing, TurnOnMode, TurnOnStepDelay, TrunOffMode, TurnOffStepDelay, LitTimeDelay };
+enum class Menu 
+{	
+	Nothing, 
+	TurnOnMode_Down, 
+	TurnOnMode_Up, 
+	TurnOnStepDelay, 
+	TrunOffMode_Down, 
+	TurnOffMode_Up, 
+	TurnOffStepDelay, 
+	LitTimeDelay 
+};
 						
 //POINTERS
 Sensor * sensorDown;
@@ -26,7 +37,7 @@ Lights * lights;
 PowerSupplier * powerSupplier;
 
 Menu selectedMenu = Menu::Nothing;
-int litTime = 3000;
+int litTime = (int)Parameters::defaultLitTime;
 
 // FUNCTION PROTOTYPES
 void turnOffIllumination();
@@ -34,14 +45,14 @@ void turnOffIllumination();
 // SETUP
 void setup()
 {	
-	sensorDown = new Sensor((int)Parameters::sensorDownPin, true);
-	sensorUp = new Sensor((int)Parameters::sensorUpPin, false);
+	sensorDown = new Sensor((int)Parameters::sensorDownPin);
+	sensorUp = new Sensor((int)Parameters::sensorUpPin);
 	lights = new Lights((int)Parameters::nrOfSteps, (int)Parameters::firstStepPin);
 	powerSupplier = new PowerSupplier((int)Parameters::powerSupplierPin);
 
 	//test
-	sensorDown->setState(true);
-	sensorUp->setState(false);
+	sensorDown->setState(false);
+	sensorUp->setState(true);
 }
 
 // MAIN LOOP
@@ -55,19 +66,29 @@ void loop()
 
 	if (sensorDown->isTriggered())
 	{
-		lights->turnOnLights(sensorDown->isDownstairs());
+		lights->turnOnLightsDown();
 		sensorDown->setActivated(true);
 	}
 
 	if (sensorUp->isTriggered())
 	{
-		lights->turnOnLights(sensorUp->isDownstairs());
+		lights->turnOnLightsUp();
 		sensorUp->setActivated(true);
 	}
 
 	if (lights->isIlluminated())
 	{
-		delay(litTime);
+		int time = 0;
+		do
+		{
+			time += 100;
+			delay(100);
+
+			//if (sensorDown->isTriggered() || sensorUp->isTriggered())
+				//time = 0;
+
+		} while (time < litTime);
+		
 		turnOffIllumination();		
 	}
 		
@@ -76,14 +97,14 @@ void loop()
 // FUNCTIONS DEFINITIONS ///////////////////////////////////////
 void turnOffIllumination()
 {
-	if (sensorDown->isActivated() && sensorUp->isActivated())
+	if (sensorDown->wasActivated() && sensorUp->wasActivated())
 		lights->turnOffLightsImmediately();	
 	else
 	{
-		if (sensorDown->isActivated())
-			lights->turnOffLights(sensorDown->isDownstairs());
-		if (sensorUp->isActivated())
-			lights->turnOffLights(sensorUp->isDownstairs());
+		if (sensorDown->wasActivated())
+			lights->turnOffLightsDown();
+		if (sensorUp->wasActivated())
+			lights->turnOffLightsUp();
 	}
 
 	powerSupplier->disable();

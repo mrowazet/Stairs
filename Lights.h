@@ -14,14 +14,16 @@ class Mode;
 class Lights
 {
 public:
-	Lights(const int nrSteps, const int firstPin);
+	Lights(const int & nrSteps, const int & firstPin);
 	~Lights();
 
-	void turnOnLights(bool isDownSensor);
-	void turnOffLights(bool isDownSensor);
-
+	void turnOnLightsDown();
+	void turnOnLightsUp();
+	void turnOffLightsDown();
+	void turnOffLightsUp();
 	void turnOnLightsImmediately();
 	void turnOffLightsImmediately();
+
 	void resetEnablersCounters();
 
 	bool isIlluminated();

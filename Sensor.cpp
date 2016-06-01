@@ -4,9 +4,8 @@
 
 #include "Sensor.h"
 
-Sensor::Sensor(const int & pinNr, bool downLocation)
-	:Pin(pinNr),
-	LocatedDownstairs(downLocation)
+Sensor::Sensor(const int & pinNr)
+	:Pin(pinNr)
 {
 	pinMode(Pin, INPUT);
 }
@@ -16,11 +15,17 @@ Sensor::~Sensor()
 }
 
 bool Sensor::isTriggered()
-{//odczytac stan!
+{	
+	//odczytac stan!
+	//if (digitalRead(Pin) == HIGH)
+	//	return true;
+
+	//return false;
+
 	return state;
 }
 
-const bool & Sensor::isActivated() const
+const bool & Sensor::wasActivated() const
 {
 	return activated;
 }
@@ -28,11 +33,6 @@ const bool & Sensor::isActivated() const
 void Sensor::setActivated(const bool & state)
 {
 	activated = state;
-}
-
-const bool & Sensor::isDownstairs()
-{
-	return LocatedDownstairs;
 }
 
 void Sensor::setState(bool s)
