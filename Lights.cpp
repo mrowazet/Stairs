@@ -70,6 +70,17 @@ bool Lights::isIlluminated()
 	return true;
 }
 
+bool Lights::isAnyLightEnabled()
+{
+	for (int i = 0; i < nrOfSteps; i++)
+	{
+		if (digitalRead(steps[i]) == HIGH)
+			return false;
+	}
+
+	return true;
+}
+
 void Lights::setEnablerDelay(const int wantedDelay)
 {
 	enablerDown->setDelay(wantedDelay);

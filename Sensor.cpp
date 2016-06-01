@@ -35,6 +35,7 @@ void Sensor::setActivated(const bool & state)
 	activated = state;
 }
 
+//test
 void Sensor::setState(bool s)
 {
 	state = s;

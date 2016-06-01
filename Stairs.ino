@@ -1,3 +1,4 @@
+#include <LiquidCrystal.h>
 #include "Sensor.h"
 #include "PowerSupplier.h"
 #include "Lights.h"
@@ -14,13 +15,13 @@ enum class Parameters
 	sensorLightPin = 4,
 	selectButtonPin = 5,
 	setButtonPin = 6,
+	changeStateButton = 7,
 	defaultLitTime = 3000
 };
 
 // GLOBAL
-enum class Menu 
+enum class Menu //do wywalenia!
 {	
-	Nothing, 
 	TurnOnMode_Down, 
 	TurnOnMode_Up, 
 	TurnOnStepDelay, 
@@ -29,18 +30,29 @@ enum class Menu
 	TurnOffStepDelay, 
 	LitTimeDelay 
 };
+
+enum class ControllerState
+{
+	Configuration,
+	Working
+};
 						
 //POINTERS
 Sensor * sensorDown;
 Sensor * sensorUp;
 Lights * lights;
 PowerSupplier * powerSupplier;
+Menu * selectedMenu;
 
-Menu selectedMenu = Menu::Nothing;
-int litTime = (int)Parameters::defaultLitTime;
+//VARIABLES
+int litTime = (int)Parameters::defaultLitTime; //zostawic jak jest?
+ControllerState ctrlState = ControllerState::Working;
+
 
 // FUNCTION PROTOTYPES
+void turnOnIllumination();
 void turnOffIllumination();
+void wait(const int & illuminationTime); //z zachowaniem responsywnosci
 
 // SETUP
 void setup()
@@ -51,19 +63,47 @@ void setup()
 	powerSupplier = new PowerSupplier((int)Parameters::powerSupplierPin);
 
 	//test
-	sensorDown->setState(false);
-	sensorUp->setState(true);
+	sensorDown->setState(true);
+	sensorUp->setState(false);
 }
 
 // MAIN LOOP
 void loop()
 {
-	if (sensorDown->isTriggered() || sensorUp->isTriggered())
-		powerSupplier->enable();
+	while (ctrlState == ControllerState::Working)
+	{
+		if (sensorDown->isTriggered() || sensorUp->isTriggered())
+		{
+			powerSupplier->enable();
+			turnOnIllumination();
+		}
+			
+		if (lights->isIlluminated())
+		{
+			wait(litTime);
+			turnOffIllumination();
+			powerSupplier->disable();
+		}
 
+	}//end of while Working
+
+	while (ctrlState == ControllerState::Configuration)
+	{
+
+	}//end of while Configuration
+}
+
+// FUNCTIONS DEFINITIONS ///////////////////////////////////////
+void turnOnIllumination()
+{
 	if (sensorDown->isTriggered() && sensorUp->isTriggered())
+	{
 		lights->turnOnLightsImmediately();
-
+		sensorDown->setActivated(true);
+		sensorUp->setActivated(true);
+		return;
+	}
+		
 	if (sensorDown->isTriggered())
 	{
 		lights->turnOnLightsDown();
@@ -75,43 +115,47 @@ void loop()
 		lights->turnOnLightsUp();
 		sensorUp->setActivated(true);
 	}
-
-	if (lights->isIlluminated())
-	{
-		int time = 0;
-		do
-		{
-			time += 100;
-			delay(100);
-
-			//if (sensorDown->isTriggered() || sensorUp->isTriggered())
-				//time = 0;
-
-		} while (time < litTime);
-		
-		turnOffIllumination();		
-	}
-		
 }
 
-// FUNCTIONS DEFINITIONS ///////////////////////////////////////
 void turnOffIllumination()
 {
 	if (sensorDown->wasActivated() && sensorUp->wasActivated())
 		lights->turnOffLightsImmediately();	
 	else
 	{
-		if (sensorDown->wasActivated())
-			lights->turnOffLightsDown();
-		if (sensorUp->wasActivated())
-			lights->turnOffLightsUp();
+		while (!lights->isAnyLightEnabled())
+		{
+			if (sensorDown->wasActivated())
+				lights->turnOffLightsDown();
+			if (sensorUp->wasActivated())
+				lights->turnOffLightsUp();
+
+			//if (sensorDown->isTriggered() || sensorUp->isTriggered())
+			//{
+				//tylko break moze?
+				//albo
+				//lights->turnOnLightsImmediately();
+				//break;
+			//}
+		}		
 	}
 
-	powerSupplier->disable();
+	//jak zrobi sie break tam wyzej to chyba sie nie powinno wykonac?
 	lights->resetEnablersCounters();
 	sensorDown->setActivated(false);
 	sensorUp->setActivated(false);
+}
 
-	//test
-	delay(3000);
+void wait(const int & illuminationTime)
+{
+	int time = 0;
+	do
+	{
+		time += 200;
+		delay(200);
+
+		//if (sensorDown->isTriggered() || sensorUp->isTriggered())
+		//time = 0;
+
+	} while (time < illuminationTime);
 }

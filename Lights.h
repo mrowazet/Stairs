@@ -27,6 +27,7 @@ public:
 	void resetEnablersCounters();
 
 	bool isIlluminated();
+	bool isAnyLightEnabled();
 
 	void changeEnablerDown();
 	void changeEnablerUp();

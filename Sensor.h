@@ -29,7 +29,7 @@ class Sensor
 		const int Pin;
 
 		//test
-		bool state;
+		volatile bool state;
 };
 
 
