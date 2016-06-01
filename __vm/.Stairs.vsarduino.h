@@ -80,4 +80,6 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <Mode_03.h>
 #include <PowerSupplier.cpp>
 #include <PowerSupplier.h>
+#include <Sensor.cpp>
+#include <Sensor.h>
 #endif

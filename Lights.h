@@ -26,8 +26,10 @@ public:
 
 	bool isIlluminated();
 
-	void changeEnabler();
-	void changeDisabler();
+	void changeEnablerDown();
+	void changeEnablerUp();
+	void changeDisablerDown();
+	void changeDisablerUp();
 
 	void setEnablerDelay(const int wantedDelay);
 	void setDisablerDelay(const int wantedDelay);

@@ -4,7 +4,7 @@
 
 #include "PowerSupplier.h"
 
-PowerSupplier::PowerSupplier(int pinNr)
+PowerSupplier::PowerSupplier(const int & pinNr)
 	:Pin(pinNr)
 {
 	pinMode(Pin, OUTPUT);

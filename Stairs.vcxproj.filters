@@ -39,6 +39,9 @@
     <ClInclude Include="PowerSupplier.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Sensor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Mode.cpp">
@@ -57,6 +60,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PowerSupplier.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Sensor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

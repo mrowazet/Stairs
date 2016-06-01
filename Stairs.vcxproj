@@ -124,6 +124,7 @@
     <ClInclude Include="Mode_02.h" />
     <ClInclude Include="Mode_03.h" />
     <ClInclude Include="PowerSupplier.h" />
+    <ClInclude Include="Sensor.h" />
     <ClInclude Include="__vm\.Stairs.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +134,7 @@
     <ClCompile Include="Mode_02.cpp" />
     <ClCompile Include="Mode_03.cpp" />
     <ClCompile Include="PowerSupplier.cpp" />
+    <ClCompile Include="Sensor.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,3 +1,4 @@
+#include "Sensor.h"
 #include "PowerSupplier.h"
 #include "Lights.h"
 #include "Mode.h"
@@ -14,74 +15,54 @@ enum class Parameters
 	selectButtonPin = 5,
 	setButtonPin = 6
 };
-						
-	
-
-//CONSTANTS
-const int SensorDown = 2;
-const int SensorUp = 3;
-const int SensorLight = 4;
-const int SelectPin = 5;
-const int SetPin = 6;
-
-const bool SensorDownstairs = true;
-const bool SensorUpstairs = false;
 
 // GLOBAL
-enum class State { IDLE, BUSY, ON };
 enum class Menu { Nothing, TurnOnMode, TurnOnStepDelay, TrunOffMode, TurnOffStepDelay, LitTimeDelay };
-
+						
+//POINTERS
+Sensor * sensorDown;
+Sensor * sensorUp;
 Lights * lights;
 PowerSupplier * powerSupplier;
 
-//test
-bool dol = true;
-bool gora = false;
-
-bool sensorDownActivated = false;
-bool sensorUpActivated = false;
-
-///
-
-State state = State::IDLE;
 Menu selectedMenu = Menu::Nothing;
 int litTime = 3000;
 
 // FUNCTION PROTOTYPES
-void initSensors();
-void initButtons();
-int calculateDelayForLitTime(int &wantedTime);
 void turnOffIllumination();
 
 // SETUP
 void setup()
-{	initSensors();
-	initButtons();
+{	
+	sensorDown = new Sensor((int)Parameters::sensorDownPin, true);
+	sensorUp = new Sensor((int)Parameters::sensorUpPin, false);
 	lights = new Lights((int)Parameters::nrOfSteps, (int)Parameters::firstStepPin);
 	powerSupplier = new PowerSupplier((int)Parameters::powerSupplierPin);
+
+	//test
+	sensorDown->setState(true);
+	sensorUp->setState(false);
 }
 
 // MAIN LOOP
 void loop()
 {
-	if (dol || gora)
+	if (sensorDown->isTriggered() || sensorUp->isTriggered())
 		powerSupplier->enable();
 
-	if (dol && gora)
+	if (sensorDown->isTriggered() && sensorUp->isTriggered())
 		lights->turnOnLightsImmediately();
 
-	if (dol)
+	if (sensorDown->isTriggered())
 	{
-		lights->turnOnLights(SensorDownstairs);
-		state = State::BUSY;
-		sensorDownActivated = true;
+		lights->turnOnLights(sensorDown->isDownstairs());
+		sensorDown->setActivated(true);
 	}
 
-	if (gora)
+	if (sensorUp->isTriggered())
 	{
-		lights->turnOnLights(SensorUpstairs);
-		state = State::BUSY;
-		sensorUpActivated = true;
+		lights->turnOnLights(sensorUp->isDownstairs());
+		sensorUp->setActivated(true);
 	}
 
 	if (lights->isIlluminated())
@@ -93,38 +74,22 @@ void loop()
 }
 
 // FUNCTIONS DEFINITIONS ///////////////////////////////////////
-void initSensors()
-{
-	pinMode(SensorUp, INPUT_PULLUP);
-	pinMode(SensorDown, INPUT_PULLUP);
-}
-
-void initButtons()
-{
-	pinMode(SelectPin, INPUT_PULLUP);
-	pinMode(SetPin, INPUT_PULLUP);
-}
-
-int calculateDelayForLitTime(int &wantedTime)
-{
-}
-
 void turnOffIllumination()
 {
-	if (sensorDownActivated && sensorUpActivated)
+	if (sensorDown->isActivated() && sensorUp->isActivated())
 		lights->turnOffLightsImmediately();	
 	else
 	{
-		if (sensorDownActivated)
-			lights->turnOffLights(SensorDownstairs);
-		if (sensorUpActivated)
-			lights->turnOffLights(SensorUpstairs);
+		if (sensorDown->isActivated())
+			lights->turnOffLights(sensorDown->isDownstairs());
+		if (sensorUp->isActivated())
+			lights->turnOffLights(sensorUp->isDownstairs());
 	}
 
 	powerSupplier->disable();
 	lights->resetEnablersCounters();
-	sensorDownActivated = false;
-	sensorUpActivated = false;
+	sensorDown->setActivated(false);
+	sensorUp->setActivated(false);
 
 	//test
 	delay(3000);

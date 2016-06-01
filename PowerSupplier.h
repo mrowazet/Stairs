@@ -12,7 +12,7 @@
 class PowerSupplier
 {
 	public:
-		PowerSupplier(int pinNr);
+		PowerSupplier(const int & pinNr);
 		~PowerSupplier();
 
 		void enable();
