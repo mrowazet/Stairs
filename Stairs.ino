@@ -7,15 +7,18 @@
 //PARAMETERS
 enum class Parameters
 {
-	nrOfSteps = 5,
-	firstStepPin = 8,
-	powerSupplierPin = 13,
-	sensorDownPin = 2,
-	sensorUpPin = 3,
-	sensorLightPin = 4,
-	selectButtonPin = 5,
-	setButtonPin = 6,
-	changeStateButton = 7,
+	nrOfSteps = 16,
+	firstStepPin = 22,
+	powerSupplierPin = 13, //zmienic na 11!
+	firstLCDscreenPin = 14,
+	sensorDownPin = 20,
+	sensorUpPin = 21,
+	sensorLightPin = 0, //digital!
+	changeStateButton = 2,
+	selectButtonPin = 3,
+	setButtonPin = 4,	
+	dimIndicatorPin = 12,
+	deviceStatusPin = 11, //zmienic na 13!
 	defaultLitTime = 3000
 };
 
@@ -38,6 +41,7 @@ enum class ControllerState
 };
 						
 //POINTERS
+LiquidCrystal * lcdScreen;
 Sensor * sensorDown;
 Sensor * sensorUp;
 Lights * lights;
@@ -48,7 +52,6 @@ Menu * selectedMenu;
 int litTime = (int)Parameters::defaultLitTime; //zostawic jak jest?
 ControllerState ctrlState = ControllerState::Working;
 
-
 // FUNCTION PROTOTYPES
 void turnOnIllumination();
 void turnOffIllumination();
@@ -56,7 +59,13 @@ void wait(const int & illuminationTime); //z zachowaniem responsywnosci
 
 // SETUP
 void setup()
-{	
+{	//test
+	lcdScreen = new LiquidCrystal(14, 15, 16, 17, 18, 19);
+	lcdScreen->begin(16, 2); 
+	lcdScreen->clear();
+	lcdScreen->print("okej");
+	//
+
 	sensorDown = new Sensor((int)Parameters::sensorDownPin);
 	sensorUp = new Sensor((int)Parameters::sensorUpPin);
 	lights = new Lights((int)Parameters::nrOfSteps, (int)Parameters::firstStepPin);
