@@ -5,7 +5,7 @@
 #include "Mode.h"
 
 //PARAMETERS
-enum class Parameters
+enum class CtrlParams
 {
 	nrOfSteps = 16,
 	firstStepPin = 22,
@@ -18,12 +18,12 @@ enum class Parameters
 	selectButtonPin = 3,
 	setButtonPin = 4,	
 	dimIndicatorPin = 12,
-	deviceStatusPin = 13, 
+	deviceStatusLedPin = 13, 
 	defaultLitTime = 3000
 };
 
 // GLOBAL
-enum class Menu //do wywalenia!
+enum class Menu
 {	
 	TurnOnMode_Down, 
 	TurnOnMode_Up, 
@@ -49,30 +49,25 @@ PowerSupplier * powerSupplier;
 Menu * selectedMenu;
 
 //VARIABLES
-int litTime = (int)Parameters::defaultLitTime; //zostawic jak jest?
+int litTime = (int)CtrlParams::defaultLitTime; //zostawic jak jest?
 ControllerState ctrlState = ControllerState::Working;
 
 // FUNCTION PROTOTYPES
+void initController();
 void initButtons();
+void initStatusLed();
+void initLcdScreen();
+
 void turnOnIllumination();
 void turnOffIllumination();
+
 bool changeState(const ControllerState state);
 void wait(const int & illuminationTime); //z zachowaniem responsywnosci
 
 // SETUP
 void setup()
-{	//test
-	lcdScreen = new LiquidCrystal(14, 15, 16, 17, 18, 19);
-	lcdScreen->begin(16, 2); 
-	lcdScreen->clear();
-	lcdScreen->print("working");
-	//
-
-	initButtons();
-	sensorDown = new Sensor((int)Parameters::sensorDownPin);
-	sensorUp = new Sensor((int)Parameters::sensorUpPin);
-	lights = new Lights((int)Parameters::nrOfSteps, (int)Parameters::firstStepPin);
-	powerSupplier = new PowerSupplier((int)Parameters::powerSupplierPin);
+{	
+	initController();
 
 	//test
 	sensorDown->setState(false);
@@ -114,18 +109,46 @@ void loop()
 }
 
 // FUNCTIONS DEFINITIONS ///////////////////////////////////////
+void initController()
+{
+	initButtons();
+	initStatusLed();
+	initLcdScreen();
+
+
+
+	sensorDown = new Sensor((int)CtrlParams::sensorDownPin);
+	sensorUp = new Sensor((int)CtrlParams::sensorUpPin);
+	lights = new Lights((int)CtrlParams::nrOfSteps, (int)CtrlParams::firstStepPin);
+	powerSupplier = new PowerSupplier((int)CtrlParams::powerSupplierPin);
+}
+
 void initButtons()
 {
-	pinMode((int)Parameters::changeStateButtonPin, INPUT_PULLUP);
-	pinMode((int)Parameters::selectButtonPin, INPUT_PULLUP);
-	pinMode((int)Parameters::setButtonPin, INPUT_PULLUP);
+	pinMode((int)CtrlParams::changeStateButtonPin, INPUT_PULLUP);
+	pinMode((int)CtrlParams::selectButtonPin, INPUT_PULLUP);
+	pinMode((int)CtrlParams::setButtonPin, INPUT_PULLUP);
+}
+
+void initStatusLed()
+{
+	pinMode((int)CtrlParams::deviceStatusLedPin, OUTPUT);
+	digitalWrite((int)CtrlParams::deviceStatusLedPin, HIGH);
+}
+
+void initLcdScreen()
+{
+	int startPin = (int)CtrlParams::firstLCDscreenPin;
+	lcdScreen = new LiquidCrystal(startPin, startPin + 1, startPin + 2, startPin + 3, startPin + 4, startPin + 5);
+	lcdScreen->begin(16, 2);
+	lcdScreen->clear();
 }
 
 bool changeState(const ControllerState state)
 {
 	bool change = false;
 	int i = 0;
-	while (digitalRead((int)Parameters::changeStateButtonPin) == LOW)
+	while (digitalRead((int)CtrlParams::changeStateButtonPin) == LOW)
 	{
 		if (i == 0)
 		{
@@ -134,16 +157,22 @@ bool changeState(const ControllerState state)
 
 			if (ctrlState == ControllerState::Working)
 			{
+				digitalWrite((int)CtrlParams::deviceStatusLedPin, LOW);
 				lights->turnOffLightsImmediately();
 				lights->resetEnablersCounters();
-				lcdScreen->print("Configuration");
+				lcdScreen->display();
+				lcdScreen->print("Konfiguracja");
+			}
+
+			if (ctrlState == ControllerState::Configuration)
+			{
+				digitalWrite((int)CtrlParams::deviceStatusLedPin, HIGH);
+				lcdScreen->print("Praca!");
+				delay(2000);
+				lcdScreen->noDisplay();
 			}
 				
-			if (ctrlState == ControllerState::Configuration)
-				lcdScreen->print("Working");
-
-			ctrlState = state;
-			
+			ctrlState = state;			
 		}
 
 		change = true;
