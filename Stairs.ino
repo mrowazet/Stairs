@@ -9,16 +9,16 @@ enum class Parameters
 {
 	nrOfSteps = 16,
 	firstStepPin = 22,
-	powerSupplierPin = 13, //zmienic na 11!
+	powerSupplierPin = 11,
 	firstLCDscreenPin = 14,
 	sensorDownPin = 20,
 	sensorUpPin = 21,
 	sensorLightPin = 0, //digital!
-	changeStateButton = 2,
+	changeStateButtonPin = 2,
 	selectButtonPin = 3,
 	setButtonPin = 4,	
 	dimIndicatorPin = 12,
-	deviceStatusPin = 11, //zmienic na 13!
+	deviceStatusPin = 13, 
 	defaultLitTime = 3000
 };
 
@@ -53,8 +53,10 @@ int litTime = (int)Parameters::defaultLitTime; //zostawic jak jest?
 ControllerState ctrlState = ControllerState::Working;
 
 // FUNCTION PROTOTYPES
+void initButtons();
 void turnOnIllumination();
 void turnOffIllumination();
+bool changeState(const ControllerState state);
 void wait(const int & illuminationTime); //z zachowaniem responsywnosci
 
 // SETUP
@@ -63,24 +65,28 @@ void setup()
 	lcdScreen = new LiquidCrystal(14, 15, 16, 17, 18, 19);
 	lcdScreen->begin(16, 2); 
 	lcdScreen->clear();
-	lcdScreen->print("okej");
+	lcdScreen->print("working");
 	//
 
+	initButtons();
 	sensorDown = new Sensor((int)Parameters::sensorDownPin);
 	sensorUp = new Sensor((int)Parameters::sensorUpPin);
 	lights = new Lights((int)Parameters::nrOfSteps, (int)Parameters::firstStepPin);
 	powerSupplier = new PowerSupplier((int)Parameters::powerSupplierPin);
 
 	//test
-	sensorDown->setState(true);
-	sensorUp->setState(false);
+	sensorDown->setState(false);
+	sensorUp->setState(true);
 }
 
 // MAIN LOOP
 void loop()
 {
 	while (ctrlState == ControllerState::Working)
-	{
+	{		
+		if (changeState(ControllerState::Configuration))
+			break;
+				
 		if (sensorDown->isTriggered() || sensorUp->isTriggered())
 		{
 			powerSupplier->enable();
@@ -93,16 +99,62 @@ void loop()
 			turnOffIllumination();
 			powerSupplier->disable();
 		}
-
 	}//end of while Working
 
 	while (ctrlState == ControllerState::Configuration)
 	{
+		if (changeState(ControllerState::Working))
+			break;
+		
+			
+
+		
 
 	}//end of while Configuration
 }
 
 // FUNCTIONS DEFINITIONS ///////////////////////////////////////
+void initButtons()
+{
+	pinMode((int)Parameters::changeStateButtonPin, INPUT_PULLUP);
+	pinMode((int)Parameters::selectButtonPin, INPUT_PULLUP);
+	pinMode((int)Parameters::setButtonPin, INPUT_PULLUP);
+}
+
+bool changeState(const ControllerState state)
+{
+	bool change = false;
+	int i = 0;
+	while (digitalRead((int)Parameters::changeStateButtonPin) == LOW)
+	{
+		if (i == 0)
+		{
+			lcdScreen->clear();
+			i++;
+
+			if (ctrlState == ControllerState::Working)
+			{
+				lights->turnOffLightsImmediately();
+				lights->resetEnablersCounters();
+				lcdScreen->print("Configuration");
+			}
+				
+			if (ctrlState == ControllerState::Configuration)
+				lcdScreen->print("Working");
+
+			ctrlState = state;
+			
+		}
+
+		change = true;
+	}
+
+	if (change)
+		delay(200);
+
+	return change;
+}
+
 void turnOnIllumination()
 {
 	if (sensorDown->isTriggered() && sensorUp->isTriggered())

@@ -19,16 +19,13 @@ void Mode_01::turnOn()
 
 void Mode_01::turnOff()
 {
-	//for (int i = 0; i < tabSize; i++)
-	//{
-		digitalWrite(steps[stepNr], LOW);
-		delay(stepDelay);
+	digitalWrite(steps[stepNr], LOW);
+	delay(stepDelay);
 
-		stepNr++;
+	stepNr++;
 
-		if (stepNr == tabSize)
-			stepNr = 0;
-	//}
+	if (stepNr == tabSize)
+		stepNr = 0;
 }
 
 void Mode_01::clearStepNr()
