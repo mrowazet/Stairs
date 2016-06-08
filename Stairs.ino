@@ -1,6 +1,7 @@
 #include <LiquidCrystal.h>
 #include "Sensor.h"
 #include "PowerSupplier.h"
+#include "StatusLed.h"
 #include "Lights.h"
 #include "Mode.h"
 
@@ -45,6 +46,7 @@ LiquidCrystal * lcdScreen;
 Sensor * sensorDown;
 Sensor * sensorUp;
 Lights * lights;
+StatusLed * statusLed;
 PowerSupplier * powerSupplier;
 Menu * selectedMenu;
 
@@ -55,13 +57,15 @@ ControllerState ctrlState = ControllerState::Working;
 // FUNCTION PROTOTYPES
 void initController();
 void initButtons();
-void initStatusLed();
 void initLcdScreen();
 
 void turnOnIllumination();
 void turnOffIllumination();
 
 bool changeState(const ControllerState state);
+void setToConfigurationState();
+void setToWorkingState();
+
 void wait(const int & illuminationTime); //z zachowaniem responsywnosci
 
 // SETUP
@@ -73,7 +77,7 @@ void setup()
 	sensorDown->setState(false);
 	sensorUp->setState(true);
 }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // MAIN LOOP
 void loop()
 {
@@ -96,31 +100,28 @@ void loop()
 		}
 	}//end of while Working
 
+
 	while (ctrlState == ControllerState::Configuration)
 	{
 		if (changeState(ControllerState::Working))
 			break;
 		
-			
-
-		
-
 	}//end of while Configuration
 }
 
-// FUNCTIONS DEFINITIONS ///////////////////////////////////////
+// FUNCTIONS DEFINITIONS ///////////////////////////////////////////////////////////////////////////
 void initController()
 {
 	initButtons();
-	initStatusLed();
 	initLcdScreen();
-
-
 
 	sensorDown = new Sensor((int)CtrlParams::sensorDownPin);
 	sensorUp = new Sensor((int)CtrlParams::sensorUpPin);
 	lights = new Lights((int)CtrlParams::nrOfSteps, (int)CtrlParams::firstStepPin);
+	statusLed = new StatusLed((int)CtrlParams::deviceStatusLedPin);
 	powerSupplier = new PowerSupplier((int)CtrlParams::powerSupplierPin);
+
+	statusLed->on();
 }
 
 void initButtons()
@@ -128,12 +129,6 @@ void initButtons()
 	pinMode((int)CtrlParams::changeStateButtonPin, INPUT_PULLUP);
 	pinMode((int)CtrlParams::selectButtonPin, INPUT_PULLUP);
 	pinMode((int)CtrlParams::setButtonPin, INPUT_PULLUP);
-}
-
-void initStatusLed()
-{
-	pinMode((int)CtrlParams::deviceStatusLedPin, OUTPUT);
-	digitalWrite((int)CtrlParams::deviceStatusLedPin, HIGH);
 }
 
 void initLcdScreen()
@@ -156,21 +151,10 @@ bool changeState(const ControllerState state)
 			i++;
 
 			if (ctrlState == ControllerState::Working)
-			{
-				digitalWrite((int)CtrlParams::deviceStatusLedPin, LOW);
-				lights->turnOffLightsImmediately();
-				lights->resetEnablersCounters();
-				lcdScreen->display();
-				lcdScreen->print("Konfiguracja");
-			}
+				setToConfigurationState();
 
 			if (ctrlState == ControllerState::Configuration)
-			{
-				digitalWrite((int)CtrlParams::deviceStatusLedPin, HIGH);
-				lcdScreen->print("Praca!");
-				delay(2000);
-				lcdScreen->noDisplay();
-			}
+				setToWorkingState();
 				
 			ctrlState = state;			
 		}
@@ -182,6 +166,23 @@ bool changeState(const ControllerState state)
 		delay(200);
 
 	return change;
+}
+
+void setToConfigurationState()
+{
+	statusLed->off();
+	lights->turnOffLightsImmediately();
+	lights->resetEnablersCounters();
+	lcdScreen->display();
+	lcdScreen->print("Konfiguracja");
+}
+
+void setToWorkingState()
+{
+	statusLed->on();
+	lcdScreen->print("Praca!");
+	delay(1800);
+	lcdScreen->noDisplay();
 }
 
 void turnOnIllumination()
