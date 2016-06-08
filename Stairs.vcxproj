@@ -118,6 +118,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ConfParams.h" />
+    <ClInclude Include="DefaultOptionsParams.h" />
     <ClInclude Include="Lights.h" />
     <ClInclude Include="Mode.h" />
     <ClInclude Include="Mode_01.h" />
@@ -129,6 +131,8 @@
     <ClInclude Include="__vm\.Stairs.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ConfParams.cpp" />
+    <ClCompile Include="DefaultOptionsParams.cpp" />
     <ClCompile Include="Lights.cpp" />
     <ClCompile Include="Mode.cpp" />
     <ClCompile Include="Mode_01.cpp" />

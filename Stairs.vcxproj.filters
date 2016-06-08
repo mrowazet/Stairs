@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Modes">
+      <UniqueIdentifier>{7a7551ae-3fcd-4fc6-9b42-c69cd7fd6b68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Modes">
+      <UniqueIdentifier>{ebc64272-ad85-409d-b8c2-69e0e2eb4248}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Params">
+      <UniqueIdentifier>{6c945417-a695-421d-9d41-9b4f172891a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Params">
+      <UniqueIdentifier>{d56cea48-f296-4a1a-9f3b-aff8f0bbf5aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Stairs.ino" />
@@ -21,19 +33,7 @@
     <ClInclude Include="__vm\.Stairs.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Mode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Lights.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Mode_02.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Mode_01.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Mode_03.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PowerSupplier.h">
@@ -45,21 +45,27 @@
     <ClInclude Include="StatusLed.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Mode.h">
+      <Filter>Header Files\Modes</Filter>
+    </ClInclude>
+    <ClInclude Include="Mode_01.h">
+      <Filter>Header Files\Modes</Filter>
+    </ClInclude>
+    <ClInclude Include="Mode_02.h">
+      <Filter>Header Files\Modes</Filter>
+    </ClInclude>
+    <ClInclude Include="Mode_03.h">
+      <Filter>Header Files\Modes</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfParams.h">
+      <Filter>Header Files\Params</Filter>
+    </ClInclude>
+    <ClInclude Include="DefaultOptionsParams.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Mode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Lights.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Mode_02.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Mode_01.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Mode_03.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PowerSupplier.cpp">
@@ -69,6 +75,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StatusLed.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mode.cpp">
+      <Filter>Source Files\Modes</Filter>
+    </ClCompile>
+    <ClCompile Include="Mode_01.cpp">
+      <Filter>Source Files\Modes</Filter>
+    </ClCompile>
+    <ClCompile Include="Mode_02.cpp">
+      <Filter>Source Files\Modes</Filter>
+    </ClCompile>
+    <ClCompile Include="Mode_03.cpp">
+      <Filter>Source Files\Modes</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfParams.cpp">
+      <Filter>Source Files\Params</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultOptionsParams.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -67,6 +67,10 @@ extern "C" void __cxa_pure_virtual() {;}
 //
 
 #include <Stairs.ino>
+#include <ConfParams.cpp>
+#include <ConfParams.h>
+#include <DefaultOptionsParams.cpp>
+#include <DefaultOptionsParams.h>
 #include <Lights.cpp>
 #include <Lights.h>
 #include <Mode.cpp>
