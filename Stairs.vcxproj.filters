@@ -57,11 +57,14 @@
     <ClInclude Include="Mode_03.h">
       <Filter>Header Files\Modes</Filter>
     </ClInclude>
-    <ClInclude Include="ConfParams.h">
+    <ClInclude Include="Menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Configuration.h">
       <Filter>Header Files\Params</Filter>
     </ClInclude>
-    <ClInclude Include="DefaultOptionsParams.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="ConfParam.h">
+      <Filter>Header Files\Params</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -89,11 +92,14 @@
     <ClCompile Include="Mode_03.cpp">
       <Filter>Source Files\Modes</Filter>
     </ClCompile>
-    <ClCompile Include="ConfParams.cpp">
+    <ClCompile Include="Menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Configuration.cpp">
       <Filter>Source Files\Params</Filter>
     </ClCompile>
-    <ClCompile Include="DefaultOptionsParams.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="ConfParam.cpp">
+      <Filter>Source Files\Params</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

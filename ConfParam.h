@@ -1,5 +1,5 @@
-#ifndef _CONFPARAMS_h
-#define _CONFPARAMS_h
+#ifndef _CONFPARAM_h
+#define _CONFPARAM_h
 
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include "arduino.h"
@@ -7,11 +7,11 @@
 	#include "WProgram.h"
 #endif
 
-class ConfParams
+class ConfParam
 {
 	public:
-		ConfParams(const int & step, const int & minimum, const int & maximum);
-		virtual ~ConfParams();
+		ConfParam(const int & step, const int & minimum, const int & maximum);
+		virtual ~ConfParam();
 		void setLabel(const String & name);
 		const String & getLabel();
 		void changeValue();

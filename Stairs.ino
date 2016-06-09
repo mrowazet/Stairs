@@ -1,6 +1,6 @@
 #include <LiquidCrystal.h>
-#include "DefaultOptionsParams.h"
-#include "ConfParams.h"
+#include "Menu.h"
+#include "Configuration.h"
 #include "Sensor.h"
 #include "PowerSupplier.h"
 #include "StatusLed.h"
@@ -22,19 +22,8 @@ enum class CtrlParams
 	setButtonPin = 4,	
 	dimIndicatorPin = 12,
 	deviceStatusLedPin = 13, 
-	nrOfOptionsInMenu = 7,
 	nrOfAvailableModes = 3
 	
-};
-enum class Menu
-{	
-	TurnOnMode_Down, 
-	TurnOnMode_Up, 
-	TurnOnStepDelay, 
-	TurnOffMode_Down, 
-	TurnOffMode_Up, 
-	TurnOffStepDelay, 
-	LitTimeDelay 
 };
 
 enum class ControllerState
@@ -44,14 +33,14 @@ enum class ControllerState
 };
 						
 //POINTERS
-ConfParams* * options;
+Configuration * conf;
 LiquidCrystal * lcdScreen;
 Sensor * sensorDown;
 Sensor * sensorUp;
 Lights * lights;
 StatusLed * statusLed;
 PowerSupplier * powerSupplier;
-Menu * selectedMenu;
+Menu * menu;
 
 //VARIABLES
 int litTime = 3000; //zostawic jak jest? NIE! klasa z parametrami?
@@ -59,7 +48,6 @@ ControllerState ctrlState = ControllerState::Working;
 
 // FUNCTION PROTOTYPES
 void initController();
-void initMenu();
 void initButtons();
 void initLcdScreen();
 
@@ -154,21 +142,14 @@ void setToConfigurationState()
 
 
 	//test
-	delay(2000);
-	ConfParams * ptr;
-	for (int i = 0; i < (int)CtrlParams::nrOfOptionsInMenu; i++)
-	{
-		ptr = options[i];
-		lcdScreen->clear();
-		lcdScreen->print(ptr->getLabel());
-		lcdScreen->setCursor(0, 1);
-		lcdScreen->print(ptr->getValue());
-		delay(2000);
-	}
+	menu->loadParameters();
+	menu->changeOption();
+	
 }
 
 void setToWorkingState()
 {
+	menu->saveParamaters();
 	statusLed->on();
 	lcdScreen->print("Praca!");
 	delay(1800);
@@ -245,8 +226,9 @@ void initController()
 {
 	initButtons();
 	initLcdScreen();
-	initMenu();
 
+	conf = new Configuration();	
+	menu = new Menu(lcdScreen, conf);
 	sensorDown = new Sensor((int)CtrlParams::sensorDownPin);
 	sensorUp = new Sensor((int)CtrlParams::sensorUpPin);
 	lights = new Lights((int)CtrlParams::nrOfSteps, (int)CtrlParams::firstStepPin);
@@ -269,47 +251,4 @@ void initLcdScreen()
 	lcdScreen = new LiquidCrystal(startPin, startPin + 1, startPin + 2, startPin + 3, startPin + 4, startPin + 5);
 	lcdScreen->begin(16, 2);
 	lcdScreen->clear();
-}
-
-void initMenu()
-{
-	DefaultOptionsParams d;
-	options = new ConfParams*[(int)CtrlParams::nrOfOptionsInMenu];
-
-	const int NrOfModes = (int)CtrlParams::nrOfAvailableModes;
-
-	int index = (int)Menu::TurnOnMode_Down;
-	options[index] = new ConfParams(d.StepMode, 1, NrOfModes);
-	options[index]->setLabel("Tryb wl. dol:");
-	options[index]->setValue(d.TurnOnMode_Down);
-
-	index = (int)Menu::TurnOnMode_Up;
-	options[index] = new ConfParams(d.StepMode, 1, NrOfModes);
-	options[index]->setLabel("Tryb wl. gora:");
-	options[index]->setValue(d.TurnOnMode_Up);
-
-	index = (int)Menu::TurnOnStepDelay;
-	options[index] = new ConfParams(d.StepSwitch, d.MinDelaySwitchStep, d.MaxDelaySwitchStep);
-	options[index]->setLabel("Wl. czas kroku:");
-	options[index]->setValue(d.TurnOnStepDelay);
-
-	index = (int)Menu::TurnOffMode_Down;
-	options[index] = new ConfParams(d.StepMode, 1, NrOfModes);
-	options[index]->setLabel("Tryb wyl. dol:");
-	options[index]->setValue(d.TurnOffMode_Down);
-
-	index = (int)Menu::TurnOffMode_Up;
-	options[index] = new ConfParams(d.StepMode, 1, NrOfModes);
-	options[index]->setLabel("Tryb wyl. gora:");
-	options[index]->setValue(d.TurnOffMode_Up);
-
-	index = (int)Menu::TurnOffStepDelay;
-	options[index] = new ConfParams(d.StepSwitch, d.MinDelaySwitchStep, d.MaxDelaySwitchStep);
-	options[index]->setLabel("Wyl. czas kroku:");
-	options[index]->setValue(d.TurnOffStepDelay);
-
-	index = (int)Menu::LitTimeDelay;
-	options[index] = new ConfParams(d.StepLitTime, d.MinLitTime, d.MaxLitTime);
-	options[index]->setLabel("Czas podswietl.:");
-	options[index]->setValue(d.LitTime);
 }
