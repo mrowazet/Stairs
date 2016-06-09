@@ -22,6 +22,7 @@ class Menu
 		void changeValue();
 		void loadParameters();
 		void saveParamaters();
+		void resetCurrentOptionIndex();
 
 	protected:
 		struct MenuOrder;
@@ -30,8 +31,10 @@ class Menu
 		Configuration * conf;
 		ConfParam ** menu;
 		ConfParam * currentMenuPos;
+		int selectedOptionIndex = 0;
 
 		void init();
+		void refreshScreen();
 
 		struct MenuOrder
 		{

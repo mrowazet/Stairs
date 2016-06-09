@@ -1,38 +1,18 @@
 #include <LiquidCrystal.h>
-#include "Menu.h"
+#include "HWconfiguration.h"
 #include "Configuration.h"
+#include "Menu.h"
 #include "Sensor.h"
 #include "PowerSupplier.h"
 #include "StatusLed.h"
 #include "Lights.h"
 #include "Mode.h"
 
-//PARAMETERS
-enum class CtrlParams
-{
-	nrOfSteps = 16,
-	firstStepPin = 22,
-	powerSupplierPin = 11,
-	firstLCDscreenPin = 14,
-	sensorDownPin = 20,
-	sensorUpPin = 21,
-	sensorLightPin = 0, //digital!
-	changeStateButtonPin = 2,
-	selectButtonPin = 3,
-	setButtonPin = 4,	
-	dimIndicatorPin = 12,
-	deviceStatusLedPin = 13, 
-	nrOfAvailableModes = 3
-	
-};
-
-enum class ControllerState
-{
-	Configuration,
-	Working
-};
+//GLOBAL
+enum class ControllerState { Configuration, Working };
 						
 //POINTERS
+HWconfiguration * hwcfg;
 Configuration * conf;
 LiquidCrystal * lcdScreen;
 Sensor * sensorDown;
@@ -43,7 +23,6 @@ PowerSupplier * powerSupplier;
 Menu * menu;
 
 //VARIABLES
-int litTime = 3000; //zostawic jak jest? NIE! klasa z parametrami?
 ControllerState ctrlState = ControllerState::Working;
 
 // FUNCTION PROTOTYPES
@@ -54,9 +33,11 @@ void initLcdScreen();
 void turnOnIllumination();
 void turnOffIllumination();
 
+bool buttonClicked(const int & buttonPin);
+
 bool changeState(const ControllerState state);
-void setToConfigurationState();
-void setToWorkingState();
+void putToConfigurationState();
+void putToWorkingState();
 
 void wait(const int & illuminationTime); //z zachowaniem responsywnosci
 
@@ -86,7 +67,7 @@ void loop()
 			
 		if (lights->isIlluminated())
 		{
-			wait(litTime);
+			wait(conf->getLitTime());
 			turnOffIllumination();
 			powerSupplier->disable();
 		}
@@ -97,27 +78,45 @@ void loop()
 	{
 		if (changeState(ControllerState::Working))
 			break;
+
+		if (buttonClicked(hwcfg->getSelectButtonPin()))
+			menu->changeOption();
+
+		if (buttonClicked(hwcfg->getSetButtonPin()))
+			menu->changeValue();
 		
 	}//end of while Configuration
 }
 
 // FUNCTIONS DEFINITIONS ///////////////////////////////////////////////////////////////////////////
+bool buttonClicked(const int & buttonPin)
+{
+	bool change = false;
+	while (digitalRead(buttonPin) == LOW)
+		change = true;
+
+	if (change)
+		delay(200);
+
+	return change;
+}
+
 bool changeState(const ControllerState state)
 {
 	bool change = false;
-	int i = 0;
-	while (digitalRead((int)CtrlParams::changeStateButtonPin) == LOW)
+	bool notExecuted = true;
+	while (digitalRead(hwcfg->getChangeStateButtonPin()) == LOW)
 	{
-		if (i == 0)
+		if (notExecuted)
 		{
 			lcdScreen->clear();
-			i++;
+			notExecuted = false;
 
 			if (ctrlState == ControllerState::Working)
-				setToConfigurationState();
+				putToConfigurationState();
 
 			if (ctrlState == ControllerState::Configuration)
-				setToWorkingState();
+				putToWorkingState();
 				
 			ctrlState = state;			
 		}
@@ -131,24 +130,19 @@ bool changeState(const ControllerState state)
 	return change;
 }
 
-void setToConfigurationState()
+void putToConfigurationState()
 {
 	statusLed->off();
 	lights->turnOffLightsImmediately();
 	lights->resetEnablersCounters();
 	lcdScreen->display();
 	lcdScreen->print("Konfiguracja!");
-
-
-
-	//test
 	menu->loadParameters();
-	menu->changeOption();
-	
 }
 
-void setToWorkingState()
+void putToWorkingState()
 {
+	menu->resetCurrentOptionIndex();
 	menu->saveParamaters();
 	statusLed->on();
 	lcdScreen->print("Praca!");
@@ -224,30 +218,32 @@ void wait(const int & illuminationTime)
 
 void initController()
 {
+	hwcfg = new HWconfiguration();
+
 	initButtons();
 	initLcdScreen();
 
 	conf = new Configuration();	
 	menu = new Menu(lcdScreen, conf);
-	sensorDown = new Sensor((int)CtrlParams::sensorDownPin);
-	sensorUp = new Sensor((int)CtrlParams::sensorUpPin);
-	lights = new Lights((int)CtrlParams::nrOfSteps, (int)CtrlParams::firstStepPin);
-	statusLed = new StatusLed((int)CtrlParams::deviceStatusLedPin);
-	powerSupplier = new PowerSupplier((int)CtrlParams::powerSupplierPin);
+	sensorDown = new Sensor(hwcfg->getSensorDownPin());
+	sensorUp = new Sensor(hwcfg->getSensorUpPin());
+	lights = new Lights(hwcfg->getNrOfSteps(), hwcfg->getFirstStepPin());
+	statusLed = new StatusLed(hwcfg->getDeviceStatusLedPin());
+	powerSupplier = new PowerSupplier(hwcfg->getPowerSupplierPin());
 
 	statusLed->on();
 }
 
 void initButtons()
 {
-	pinMode((int)CtrlParams::changeStateButtonPin, INPUT_PULLUP);
-	pinMode((int)CtrlParams::selectButtonPin, INPUT_PULLUP);
-	pinMode((int)CtrlParams::setButtonPin, INPUT_PULLUP);
+	pinMode(hwcfg->getChangeStateButtonPin(), INPUT_PULLUP);
+	pinMode(hwcfg->getSelectButtonPin(), INPUT_PULLUP);
+	pinMode(hwcfg->getSetButtonPin(), INPUT_PULLUP);
 }
 
 void initLcdScreen()
 {
-	int startPin = (int)CtrlParams::firstLCDscreenPin;
+	int startPin = hwcfg->getFirstLCDscreenPin();
 	lcdScreen = new LiquidCrystal(startPin, startPin + 1, startPin + 2, startPin + 3, startPin + 4, startPin + 5);
 	lcdScreen->begin(16, 2);
 	lcdScreen->clear();

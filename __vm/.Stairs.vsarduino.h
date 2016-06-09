@@ -71,6 +71,8 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <ConfParam.h>
 #include <Configuration.cpp>
 #include <Configuration.h>
+#include <HWconfiguration.cpp>
+#include <HWconfiguration.h>
 #include <Lights.cpp>
 #include <Lights.h>
 #include <Menu.cpp>

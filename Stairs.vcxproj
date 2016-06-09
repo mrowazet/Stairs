@@ -120,6 +120,7 @@
   <ItemGroup>
     <ClInclude Include="Configuration.h" />
     <ClInclude Include="ConfParam.h" />
+    <ClInclude Include="HWconfiguration.h" />
     <ClInclude Include="Lights.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Mode.h" />
@@ -134,6 +135,7 @@
   <ItemGroup>
     <ClCompile Include="Configuration.cpp" />
     <ClCompile Include="ConfParam.cpp" />
+    <ClCompile Include="HWconfiguration.cpp" />
     <ClCompile Include="Lights.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Mode.cpp" />

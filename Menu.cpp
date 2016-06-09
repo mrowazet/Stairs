@@ -16,19 +16,26 @@ Menu::~Menu()
 
 void Menu::changeOption()
 {
-	for (int i = 0; i < conf->NrOfOptionsInMenu; i++)
-	{
-		delay(2000);
-		lcd->clear();
-		lcd->print(menu[i]->getLabel());
-		lcd->setCursor(0, 1);
-		lcd->print(menu[i]->getValue());
-	}
+	refreshScreen();
+
+	selectedOptionIndex++;
+	if (selectedOptionIndex == conf->NrOfOptionsInMenu)
+		selectedOptionIndex = 0;	
 }
 
 void Menu::changeValue()
 {
+	menu[selectedOptionIndex]->changeValue();
 }
+
+void Menu::refreshScreen()
+{
+	lcd->clear();
+	lcd->print(menu[selectedOptionIndex]->getLabel());
+	lcd->setCursor(0, 1);
+	lcd->print(menu[selectedOptionIndex]->getValue());
+}
+
 void Menu::loadParameters()
 {
 	menu[menuOrder->TurnOnMode_Down]->setValue(conf->getTurnOnMode_Down());
@@ -92,4 +99,9 @@ void Menu::init()
 	menu[index] = new ConfParam(conf->LitTimeStep, conf->MinLitTime, conf->MaxLitTime);
 	menu[index]->setLabel("Czas podswietl.:");
 	menu[index]->setValue(conf->litTime);
+}
+
+void Menu::resetCurrentOptionIndex()
+{
+	selectedOptionIndex = 0;
 }

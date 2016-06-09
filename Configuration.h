@@ -55,10 +55,6 @@ class Configuration
 		const int LitTimeStep = 1000;				//ktok dla zmiany lit time
 		const int ModeStep = 1;						//krok dla zmiany trybu
 		const int NrOfAvailableModes = 3;			//ilosc trybow dla wl/wyl
-
-protected:
-
-
 };
 
 #endif
