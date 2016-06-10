@@ -59,10 +59,15 @@ void loop()
 		if (changeState(ControllerState::Configuration))
 			break;
 				
-		if (sensorDown->isTriggered() || sensorUp->isTriggered())
+		while (sensorDown->isTriggered() || sensorUp->isTriggered())
 		{
 			powerSupplier->enable();
-			turnOnIllumination();
+
+			while (!lights->isIlluminated())
+				turnOnIllumination();
+						
+			if (lights->isIlluminated())
+				break;
 		}
 			
 		if (lights->isIlluminated())
@@ -153,26 +158,22 @@ void putToWorkingState()
 }
 
 void turnOnIllumination()
-{
-	if (sensorDown->isTriggered() && sensorUp->isTriggered())
+{	
+	//trzeba to sprawdzac ze wzgledu na pierwszy if
+	sensorDown->isTriggered();
+	sensorUp->isTriggered();
+
+	if (sensorDown->wasActivated() && sensorUp->wasActivated())
 	{
 		lights->turnOnLightsImmediately();
-		sensorDown->setActivated(true);
-		sensorUp->setActivated(true);
 		return;
 	}
 		
-	if (sensorDown->isTriggered())
-	{
+	if (sensorDown->wasActivated())
 		lights->turnOnLightsDown();
-		sensorDown->setActivated(true);
-	}
 
-	if (sensorUp->isTriggered())
-	{
+	if (sensorUp->wasActivated())
 		lights->turnOnLightsUp();
-		sensorUp->setActivated(true);
-	}
 }
 
 void turnOffIllumination()
@@ -190,15 +191,13 @@ void turnOffIllumination()
 
 			if (sensorDown->isTriggered() || sensorUp->isTriggered())
 			{
-				//tylko break moze?
-				//albo
-				//lights->turnOnLightsImmediately();
-				//break;
+				lights->turnOnLightsImmediately();
+				lights->resetDisablersCounters();
+				break;
 			}
 		}		
 	}
 
-	//jak zrobi sie break tam wyzej to chyba sie nie powinno wykonac?
 	lights->resetEnablersCounters();
 	sensorDown->setActivated(false);
 	sensorUp->setActivated(false);

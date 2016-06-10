@@ -25,6 +25,7 @@ public:
 	void turnOffLightsImmediately();
 
 	void resetEnablersCounters();
+	void resetDisablersCounters();
 
 	bool isIlluminated();
 	bool isAnyLightEnabled();

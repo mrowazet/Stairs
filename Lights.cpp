@@ -108,3 +108,9 @@ void Lights::resetEnablersCounters()
 	enablerDown->clearStepNr();
 	enablerUp->clearStepNr();
 }
+
+void Lights::resetDisablersCounters()
+{
+	disablerDown->clearStepNr();
+	disablerUp->clearStepNr();
+}

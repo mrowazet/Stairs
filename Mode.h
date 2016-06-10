@@ -23,7 +23,7 @@ class Mode
 	protected:
 		const int tabSize;
 		int * steps;
-		int stepDelay = 300;
+		int stepDelay = 200;
 		int stepNr = 0;
 };
 

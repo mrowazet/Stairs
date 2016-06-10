@@ -21,15 +21,9 @@ class Sensor
 		const bool & wasActivated() const;
 		void setActivated(const bool & state);
 
-		//test
-		void setState(bool s);
-
 	private:
 		bool activated = false;
 		const int Pin;
-
-		//test
-		volatile bool state;
 };
 
 
