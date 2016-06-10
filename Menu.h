@@ -23,6 +23,7 @@ class Menu
 		void loadParameters();
 		void saveParamaters();
 		void resetCurrentOptionIndex();
+		void refreshScreen();
 
 	protected:
 		struct MenuOrder;
@@ -34,8 +35,7 @@ class Menu
 		int selectedOptionIndex = 0;
 
 		void init();
-		void refreshScreen();
-
+		
 		struct MenuOrder
 		{
 			const int TurnOnMode_Down = 0;

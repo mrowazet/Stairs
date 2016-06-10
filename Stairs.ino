@@ -138,6 +138,8 @@ void putToConfigurationState()
 	lcdScreen->display();
 	lcdScreen->print("Konfiguracja!");
 	menu->loadParameters();
+	delay(2000);
+	menu->refreshScreen();
 }
 
 void putToWorkingState()

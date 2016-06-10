@@ -25,7 +25,10 @@ const String & ConfParam::getLabel()
 
 void ConfParam::changeValue()
 {
+	currentValue += Step;
 
+	if (currentValue > Max)
+		currentValue = Min;
 }
 
 void ConfParam::setValue(const int & valueToSet)

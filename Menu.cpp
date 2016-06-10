@@ -16,16 +16,17 @@ Menu::~Menu()
 
 void Menu::changeOption()
 {
-	refreshScreen();
-
 	selectedOptionIndex++;
 	if (selectedOptionIndex == conf->NrOfOptionsInMenu)
 		selectedOptionIndex = 0;	
+
+	refreshScreen();
 }
 
 void Menu::changeValue()
 {
 	menu[selectedOptionIndex]->changeValue();
+	refreshScreen();
 }
 
 void Menu::refreshScreen()
