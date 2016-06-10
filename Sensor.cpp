@@ -17,12 +17,12 @@ Sensor::~Sensor()
 bool Sensor::isTriggered()
 {	
 	//odczytac stan!
-	//if (digitalRead(Pin) == HIGH)
-	//	return true;
+	if (digitalRead(Pin) == HIGH)
+		return true;
 
-	//return false;
+	return false;
 
-	return state;
+	//return state;
 }
 
 const bool & Sensor::wasActivated() const

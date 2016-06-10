@@ -47,8 +47,8 @@ void setup()
 	initController();
 
 	//test
-	sensorDown->setState(false);
-	sensorUp->setState(true);
+	//sensorDown->setState(false);
+	//sensorUp->setState(true);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // MAIN LOOP
@@ -138,7 +138,7 @@ void putToConfigurationState()
 	lcdScreen->display();
 	lcdScreen->print("Konfiguracja!");
 	menu->loadParameters();
-	delay(2000);
+	delay(1500);
 	menu->refreshScreen();
 }
 
@@ -148,7 +148,7 @@ void putToWorkingState()
 	menu->saveParamaters();
 	statusLed->on();
 	lcdScreen->print("Praca!");
-	delay(1800);
+	delay(1500);
 	lcdScreen->noDisplay();
 }
 
@@ -188,13 +188,13 @@ void turnOffIllumination()
 			if (sensorUp->wasActivated())
 				lights->turnOffLightsUp();
 
-			//if (sensorDown->isTriggered() || sensorUp->isTriggered())
-			//{
+			if (sensorDown->isTriggered() || sensorUp->isTriggered())
+			{
 				//tylko break moze?
 				//albo
 				//lights->turnOnLightsImmediately();
 				//break;
-			//}
+			}
 		}		
 	}
 
@@ -212,8 +212,8 @@ void wait(const int & illuminationTime)
 		time += 200;
 		delay(200);
 
-		//if (sensorDown->isTriggered() || sensorUp->isTriggered())
-		//time = 0;
+		if (sensorDown->isTriggered() || sensorUp->isTriggered())
+			time = 0;
 
 	} while (time < illuminationTime);
 }
