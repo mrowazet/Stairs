@@ -47,6 +47,7 @@ void Menu::loadParameters()
 	menu[menuOrder->TurnOffStepDelay]->setValue(conf->getTurnOffStepDelay());
 	menu[menuOrder->LitTimeDelay]->setValue(conf->getLitTime());
 	menu[menuOrder->BrightnessThreshold]->setValue(conf->getBrightnessThreshold());
+	menu[menuOrder->BrightnessOffset]->setValue(conf->getBrightnessOffset());
 }
 
 void Menu::saveParamaters()
@@ -59,6 +60,7 @@ void Menu::saveParamaters()
 	conf->setTurnOffStepDelay(menu[menuOrder->TurnOffStepDelay]->getValue());
 	conf->setLitTime(menu[menuOrder->LitTimeDelay]->getValue());
 	conf->setBrightnessThreshold(menu[menuOrder->BrightnessThreshold]->getValue());
+	conf->setBrightnessOffset(menu[menuOrder->BrightnessOffset]->getValue());
 }
 
 void Menu::init()
@@ -107,6 +109,11 @@ void Menu::init()
 	menu[index] = new ConfParam(conf->BrightnessStep, conf->MinBrightness, conf->MaxBrightness);
 	menu[index]->setLabel("Zmierzch:");
 	menu[index]->setValue(conf->brightnessThreshold);
+
+	index = menuOrder->BrightnessOffset;
+	menu[index] = new ConfParam(conf->BrightnessOffsetStep, conf->MinBrightnessOffset, conf->MaxBrightnessOffset);
+	menu[index]->setLabel("Zm. offset:");
+	menu[index]->setValue(conf->brightnessOffset);
 }
 
 void Menu::resetCurrentOptionIndex()

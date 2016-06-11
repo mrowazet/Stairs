@@ -46,6 +46,7 @@ class Menu
 			const int TurnOffStepDelay = 5;
 			const int LitTimeDelay = 6;
 			const int BrightnessThreshold = 7;
+			const int BrightnessOffset = 8;
 		};
 
 

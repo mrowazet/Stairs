@@ -27,6 +27,7 @@ class Configuration
 		const int & getTurnOffStepDelay()const;
 		const int & getLitTime()const;
 		const int & getBrightnessThreshold()const;
+		const int & getBrightnessOffset()const;
 
 		void setTurnOnMode_Down(const int & v);
 		void setTurnOnMode_Up(const int & v);
@@ -36,6 +37,7 @@ class Configuration
 		void setTurnOffStepDelay(const int & v);
 		void setLitTime(const int & v);
 		void setBrightnessThreshold(const int & v);
+		void setBrightnessOffset(const int & v);
 
 
 	private:
@@ -51,7 +53,7 @@ class Configuration
 		int brightnessOffset = 50;					//np. zapala przy 300, gasi przy 350
 
 		//stale
-		const int NrOfOptionsInMenu = 8;			//ilosc opcji
+		const int NrOfOptionsInMenu = 9;			//ilosc opcji
 		const int MinDelaySwitchStep = 50;			//min wartosc dla step delay
 		const int MaxDelaySwitchStep = 500;			//max wartosc dla step delay
 		const int SwitchStep = 50;					//krok dla zmiany step delay
@@ -61,6 +63,9 @@ class Configuration
 		const int MinBrightness = 20;				//minimanlna wartosc progu jasnosci
 		const int MaxBrightness = 500;				//maxymalna wartosc progu jasnosci
 		const int BrightnessStep = 20;				//krok dla zmiany progu jasnosci
+		const int MinBrightnessOffset = 50;			//min offset
+		const int MaxBrightnessOffset = 250;		//max offset
+		const int BrightnessOffsetStep = 25;		//krok dla zmiany offsetu
 		const int ModeStep = 1;						//krok dla zmiany trybu
 		const int NrOfAvailableModes = 3;			//ilosc trybow dla wl/wyl
 };

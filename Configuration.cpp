@@ -57,6 +57,11 @@ const int & Configuration::getBrightnessThreshold() const
 	return brightnessThreshold;
 }
 
+const int & Configuration::getBrightnessOffset() const
+{
+	return brightnessOffset;
+}
+
 void Configuration::setTurnOnMode_Down(const int & v)
 {
 	turnOnMode_Down = v;
@@ -95,4 +100,9 @@ void Configuration::setLitTime(const int & v)
 void Configuration::setBrightnessThreshold(const int & v)
 {
 	brightnessThreshold = v;
+}
+
+void Configuration::setBrightnessOffset(const int & v)
+{
+	brightnessOffset = v;
 }
