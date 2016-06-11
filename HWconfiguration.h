@@ -27,6 +27,7 @@ class HWconfiguration
 		const int & getSetButtonPin();
 		const int & getDimIndicatorPin();
 		const int & getDeviceStatusLedPin();
+		const int & getLcdLedPwrInd();
 
 	private:
 		const int nrOfSteps = 16;
@@ -41,6 +42,7 @@ class HWconfiguration
 		const int setButtonPin = 4;
 		const int dimIndicatorPin = 12;
 		const int deviceStatusLedPin = 13;
+		const int lcdLedPwrInd = 10; 
 };
 
 #endif

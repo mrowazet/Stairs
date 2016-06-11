@@ -73,6 +73,8 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <Configuration.h>
 #include <HWconfiguration.cpp>
 #include <HWconfiguration.h>
+#include <Indicator.cpp>
+#include <Indicator.h>
 #include <Lights.cpp>
 #include <Lights.h>
 #include <Menu.cpp>
@@ -89,6 +91,4 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <PowerSupplier.h>
 #include <Sensor.cpp>
 #include <Sensor.h>
-#include <StatusLed.cpp>
-#include <StatusLed.h>
 #endif

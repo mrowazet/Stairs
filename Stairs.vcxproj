@@ -121,6 +121,7 @@
     <ClInclude Include="Configuration.h" />
     <ClInclude Include="ConfParam.h" />
     <ClInclude Include="HWconfiguration.h" />
+    <ClInclude Include="Indicator.h" />
     <ClInclude Include="Lights.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Mode.h" />
@@ -129,13 +130,13 @@
     <ClInclude Include="Mode_03.h" />
     <ClInclude Include="PowerSupplier.h" />
     <ClInclude Include="Sensor.h" />
-    <ClInclude Include="StatusLed.h" />
     <ClInclude Include="__vm\.Stairs.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Configuration.cpp" />
     <ClCompile Include="ConfParam.cpp" />
     <ClCompile Include="HWconfiguration.cpp" />
+    <ClCompile Include="Indicator.cpp" />
     <ClCompile Include="Lights.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Mode.cpp" />
@@ -144,7 +145,6 @@
     <ClCompile Include="Mode_03.cpp" />
     <ClCompile Include="PowerSupplier.cpp" />
     <ClCompile Include="Sensor.cpp" />
-    <ClCompile Include="StatusLed.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

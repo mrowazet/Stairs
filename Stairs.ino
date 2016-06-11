@@ -4,7 +4,7 @@
 #include "Menu.h"
 #include "Sensor.h"
 #include "PowerSupplier.h"
-#include "StatusLed.h"
+#include "Indicator.h"
 #include "Lights.h"
 #include "Mode.h"
 
@@ -18,7 +18,9 @@ LiquidCrystal * lcdScreen;
 Sensor * sensorDown;
 Sensor * sensorUp;
 Lights * lights;
-StatusLed * statusLed;
+Indicator * statusLed;
+Indicator * dimIndicator;
+Indicator * screenLed;
 PowerSupplier * powerSupplier;
 Menu * menu;
 
@@ -45,10 +47,6 @@ void wait(const int & illuminationTime); //z zachowaniem responsywnosci
 void setup()
 {	
 	initController();
-
-	//test
-	//sensorDown->setState(false);
-	//sensorUp->setState(true);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // MAIN LOOP
@@ -137,6 +135,7 @@ bool changeState(const ControllerState state)
 
 void putToConfigurationState()
 {
+	screenLed->on();
 	statusLed->off();
 	lights->turnOffLightsImmediately();
 	lights->resetEnablersCounters();
@@ -151,6 +150,7 @@ void putToWorkingState()
 {
 	menu->resetCurrentOptionIndex();
 	menu->saveParamaters();
+	screenLed->off();
 	statusLed->on();
 	lcdScreen->print("Praca!");
 	delay(1500);
@@ -229,7 +229,9 @@ void initController()
 	sensorDown = new Sensor(hwcfg->getSensorDownPin());
 	sensorUp = new Sensor(hwcfg->getSensorUpPin());
 	lights = new Lights(hwcfg->getNrOfSteps(), hwcfg->getFirstStepPin());
-	statusLed = new StatusLed(hwcfg->getDeviceStatusLedPin());
+	statusLed = new Indicator(hwcfg->getDeviceStatusLedPin());
+	dimIndicator = new Indicator(hwcfg->getDimIndicatorPin());
+	screenLed = new Indicator(hwcfg->getLcdLedPwrInd());
 	powerSupplier = new PowerSupplier(hwcfg->getPowerSupplierPin());
 
 	statusLed->on();

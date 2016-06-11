@@ -68,3 +68,8 @@ const int & HWconfiguration::getDeviceStatusLedPin()
 {
 	return deviceStatusLedPin;
 }
+
+const int & HWconfiguration::getLcdLedPwrInd()
+{
+	return lcdLedPwrInd;
+}

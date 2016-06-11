@@ -1,18 +1,19 @@
-// StatusLed.h
+// Indicator.h
 
-#ifndef _STATUSLED_h
-#define _STATUSLED_h
+#ifndef _INDICATOR_h
+#define _INDICATOR_h
 
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include "arduino.h"
 #else
 	#include "WProgram.h"
 #endif
-class StatusLed
+
+class Indicator
 {
 public:
-	StatusLed(const int & pinNr);
-	~StatusLed();
+	Indicator(const int & pinNr);
+	~Indicator();
 	void on();
 	void off();
 

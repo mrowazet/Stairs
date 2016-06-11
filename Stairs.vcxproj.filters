@@ -42,9 +42,6 @@
     <ClInclude Include="Sensor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StatusLed.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Mode.h">
       <Filter>Header Files\Modes</Filter>
     </ClInclude>
@@ -69,6 +66,9 @@
     <ClInclude Include="HWconfiguration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Indicator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Lights.cpp">
@@ -78,9 +78,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Sensor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StatusLed.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Mode.cpp">
@@ -105,6 +102,9 @@
       <Filter>Source Files\Params</Filter>
     </ClCompile>
     <ClCompile Include="HWconfiguration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Indicator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
