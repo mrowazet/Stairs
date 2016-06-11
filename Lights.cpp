@@ -81,6 +81,52 @@ bool Lights::isAnyLightEnabled()
 	return true;
 }
 
+void Lights::changeEnablerDown(const int & modeNr)
+{
+	Mode * tmp = enablerDown;
+	enablerDown = getMode(modeNr);
+	delete tmp;
+}
+
+void Lights::changeEnablerUp(const int & modeNr)
+{
+	Mode * tmp = enablerUp;
+	enablerUp = getMode(modeNr);
+	delete tmp;
+}
+
+void Lights::changeDisablerDown(const int & modeNr)
+{
+	Mode * tmp = disablerDown;
+	disablerDown = getMode(modeNr);
+	delete tmp;
+}
+
+void Lights::changeDisablerUp(const int & modeNr)
+{
+	Mode * tmp = disablerUp;
+	disablerUp = getMode(modeNr);
+	delete tmp;
+}
+
+Mode * Lights::getMode(const int & mode)
+{
+	switch (mode)
+	{
+		case 1:
+			return new Mode_01(steps, nrOfSteps);
+		break;
+
+		case 2:
+			return new Mode_02(steps, nrOfSteps);
+		break;
+
+		case 3:
+			return new Mode_03(steps, nrOfSteps);
+		break;
+	}
+}
+
 void Lights::setEnablerDelay(const int wantedDelay)
 {
 	enablerDown->setDelay(wantedDelay);

@@ -144,8 +144,13 @@ void putToWorkingState()
 
 void applyChanges()
 {
+	lights->changeEnablerDown(conf->getTurnOnMode_Down());
+	lights->changeEnablerUp(conf->getTurnOnMode_Up());
 	lights->setEnablerDelay(conf->getTurnOnStepDelay());
-	lights->setDisablerDelay(conf->getTurnOffStepDelay());
+
+	lights->changeDisablerDown(conf->getTurnOffMode_Down());
+	lights->changeDisablerUp(conf->getTurnOffMode_Up());
+	lights->setDisablerDelay(conf->getTurnOffStepDelay());	
 }
 
 void turnOnIllumination()

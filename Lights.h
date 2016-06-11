@@ -30,10 +30,10 @@ public:
 	bool isIlluminated();
 	bool isAnyLightEnabled();
 
-	void changeEnablerDown();
-	void changeEnablerUp();
-	void changeDisablerDown();
-	void changeDisablerUp();
+	void changeEnablerDown(const int & modeNr);
+	void changeEnablerUp(const int & modeNr);
+	void changeDisablerDown(const int & modeNr);
+	void changeDisablerUp(const int & modeNr);
 
 	void setEnablerDelay(const int wantedDelay);
 	void setDisablerDelay(const int wantedDelay);
@@ -46,6 +46,8 @@ private:
 	Mode * enablerUp = nullptr;
 	Mode * disablerUp = nullptr;
 	Mode * immediatelySwitch = nullptr;
+
+	Mode * getMode(const int & mode);
 
 	void init(const int firstPin);
 };
