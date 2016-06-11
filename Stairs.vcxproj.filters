@@ -63,11 +63,11 @@
     <ClInclude Include="ConfParam.h">
       <Filter>Header Files\Params</Filter>
     </ClInclude>
-    <ClInclude Include="HWconfiguration.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Indicator.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HWconfiguration.h">
+      <Filter>Header Files\Params</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -101,11 +101,11 @@
     <ClCompile Include="ConfParam.cpp">
       <Filter>Source Files\Params</Filter>
     </ClCompile>
-    <ClCompile Include="HWconfiguration.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Indicator.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HWconfiguration.cpp">
+      <Filter>Source Files\Params</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

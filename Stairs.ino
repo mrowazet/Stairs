@@ -36,10 +36,10 @@ void turnOnIllumination();
 void turnOffIllumination();
 
 bool buttonClicked(const int & buttonPin);
-
-bool changeState(const ControllerState state);
+void changeState(const ControllerState state);
 void putToConfigurationState();
 void putToWorkingState();
+void applyChanges();
 
 void wait(const int & illuminationTime); //z zachowaniem responsywnosci
 
@@ -54,8 +54,8 @@ void loop()
 {
 	while (ctrlState == ControllerState::Working)
 	{		
-		if (changeState(ControllerState::Configuration))
-			break;
+		if (buttonClicked(hwcfg->getChangeStateButtonPin()))
+			changeState(ControllerState::Configuration);
 				
 		while (sensorDown->isTriggered() || sensorUp->isTriggered())
 		{
@@ -79,8 +79,8 @@ void loop()
 
 	while (ctrlState == ControllerState::Configuration)
 	{
-		if (changeState(ControllerState::Working))
-			break;
+		if (buttonClicked(hwcfg->getChangeStateButtonPin()))
+			changeState(ControllerState::Working);
 
 		if (buttonClicked(hwcfg->getSelectButtonPin()))
 			menu->changeOption();
@@ -104,33 +104,17 @@ bool buttonClicked(const int & buttonPin)
 	return change;
 }
 
-bool changeState(const ControllerState state)
+void changeState(const ControllerState state)
 {
-	bool change = false;
-	bool notExecuted = true;
-	while (digitalRead(hwcfg->getChangeStateButtonPin()) == LOW)
-	{
-		if (notExecuted)
-		{
-			lcdScreen->clear();
-			notExecuted = false;
+	lcdScreen->clear();
 
-			if (ctrlState == ControllerState::Working)
-				putToConfigurationState();
+	if (ctrlState == ControllerState::Working)
+		putToConfigurationState();
 
-			if (ctrlState == ControllerState::Configuration)
-				putToWorkingState();
+	if (ctrlState == ControllerState::Configuration)
+		putToWorkingState();
 				
-			ctrlState = state;			
-		}
-
-		change = true;
-	}
-
-	if (change)
-		delay(200);
-
-	return change;
+	ctrlState = state;			
 }
 
 void putToConfigurationState()
@@ -150,11 +134,18 @@ void putToWorkingState()
 {
 	menu->resetCurrentOptionIndex();
 	menu->saveParamaters();
+	applyChanges();
 	screenLed->off();
 	statusLed->on();
 	lcdScreen->print("Praca!");
 	delay(1500);
 	lcdScreen->noDisplay();
+}
+
+void applyChanges()
+{
+	lights->setEnablerDelay(conf->getTurnOnStepDelay());
+	lights->setDisablerDelay(conf->getTurnOffStepDelay());
 }
 
 void turnOnIllumination()

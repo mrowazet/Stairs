@@ -46,6 +46,7 @@ void Menu::loadParameters()
 	menu[menuOrder->TurnOffMode_Up]->setValue(conf->getTurnOffMode_Up());
 	menu[menuOrder->TurnOffStepDelay]->setValue(conf->getTurnOffStepDelay());
 	menu[menuOrder->LitTimeDelay]->setValue(conf->getLitTime());
+	menu[menuOrder->BrightnessThreshold]->setValue(conf->getBrightnessThreshold());
 }
 
 void Menu::saveParamaters()
@@ -57,6 +58,7 @@ void Menu::saveParamaters()
 	conf->setTurnOffMode_Up(menu[menuOrder->TurnOffMode_Up]->getValue());
 	conf->setTurnOffStepDelay(menu[menuOrder->TurnOffStepDelay]->getValue());
 	conf->setLitTime(menu[menuOrder->LitTimeDelay]->getValue());
+	conf->setBrightnessThreshold(menu[menuOrder->BrightnessThreshold]->getValue());
 }
 
 void Menu::init()
@@ -100,6 +102,11 @@ void Menu::init()
 	menu[index] = new ConfParam(conf->LitTimeStep, conf->MinLitTime, conf->MaxLitTime);
 	menu[index]->setLabel("Czas podswietl.:");
 	menu[index]->setValue(conf->litTime);
+
+	index = menuOrder->BrightnessThreshold;
+	menu[index] = new ConfParam(conf->BrightnessStep, conf->MinBrightness, conf->MaxBrightness);
+	menu[index]->setLabel("Zmierzch:");
+	menu[index]->setValue(conf->brightnessThreshold);
 }
 
 void Menu::resetCurrentOptionIndex()
