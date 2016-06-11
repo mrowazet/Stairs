@@ -3,6 +3,7 @@
 #include "Configuration.h"
 #include "Menu.h"
 #include "Sensor.h"
+#include "PhotoSensor.h"
 #include "PowerSupplier.h"
 #include "Indicator.h"
 #include "Lights.h"
@@ -17,6 +18,7 @@ Configuration * conf;
 LiquidCrystal * lcdScreen;
 Sensor * sensorDown;
 Sensor * sensorUp;
+PhotoSensor * photoSensor;
 Lights * lights;
 Indicator * statusLed;
 Indicator * dimIndicator;
@@ -34,6 +36,7 @@ void initLcdScreen();
 
 void turnOnIllumination();
 void turnOffIllumination();
+void setDimIndicator();
 
 bool buttonClicked(const int & buttonPin);
 void changeState(const ControllerState state);
@@ -74,6 +77,8 @@ void loop()
 			turnOffIllumination();
 			powerSupplier->disable();
 		}
+
+		setDimIndicator();
 	}//end of while Working
 
 
@@ -130,19 +135,15 @@ void putToConfigurationState()
 	menu->refreshScreen();
 
 	//odczyt wartosci z fotorezystora na potrzeby testu
-	//pinMode(0, INPUT); 
-	//volatile int val;
-	//while (true)
-	//{
-	//	lcdScreen->clear();
-	//	val = analogRead(0);
-	//	lcdScreen->print(val);
-	//	if (val < conf->getBrightnessThreshold())
-	//		dimIndicator->on();
-	//	else
-	//		dimIndicator->off();
-	//	delay(500);
-	//}
+	/*volatile int val;
+	while (true)
+	{
+		val = photoSensor->getBrightnessValue();
+		lcdScreen->clear();
+		lcdScreen->print(val);
+		setDimIndicator();
+		delay(500);
+	}*/
 	
 }
 
@@ -215,6 +216,16 @@ void turnOffIllumination()
 	sensorUp->setActivated(false);
 }
 
+void setDimIndicator()
+{
+	int brightness = photoSensor->getBrightnessValue();
+
+	if (brightness < conf->getBrightnessThreshold())
+		dimIndicator->on();
+	if (brightness > conf->getBrightnessThreshold() + conf->getBrightnessOffset())
+		dimIndicator->off();
+}
+
 void wait(const int & illuminationTime)
 {
 	int time = 0;
@@ -240,6 +251,7 @@ void initController()
 	menu = new Menu(lcdScreen, conf);
 	sensorDown = new Sensor(hwcfg->getSensorDownPin());
 	sensorUp = new Sensor(hwcfg->getSensorUpPin());
+	photoSensor = new PhotoSensor(hwcfg->getPhotoSensorPin());
 	lights = new Lights(hwcfg->getNrOfSteps(), hwcfg->getFirstStepPin());
 	statusLed = new Indicator(hwcfg->getDeviceStatusLedPin());
 	dimIndicator = new Indicator(hwcfg->getDimIndicatorPin());

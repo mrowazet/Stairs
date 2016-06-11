@@ -12,64 +12,64 @@ HWconfiguration::~HWconfiguration()
 
 const int & HWconfiguration::getNrOfSteps()
 {
-	return nrOfSteps;
+	return NrOfSteps;
 }
 
 const int & HWconfiguration::getFirstStepPin()
 {
-	return firstStepPin;
+	return FirstStepPin;
 }
 
 const int & HWconfiguration::getPowerSupplierPin()
 {
-	return powerSupplierPin;
+	return PowerSupplierPin;
 }
 
 const int & HWconfiguration::getFirstLCDscreenPin()
 {
-	return firstLCDscreenPin;
+	return FirstLCDscreenPin;
 }
 
 const int & HWconfiguration::getSensorDownPin()
 {
-	return sensorDownPin;
+	return SensorDownPin;
 }
 
 const int & HWconfiguration::getSensorUpPin()
 {
-	return sensorUpPin;
+	return SensorUpPin;
 }
 
-const int & HWconfiguration::getSensorLightPin()	//analog pin!
+const int & HWconfiguration::getPhotoSensorPin()	//analog pin!
 {
-	return sensorLightPin;
+	return PhotoSensorPin;
 }
 
 const int & HWconfiguration::getChangeStateButtonPin()
 {
-	return changeStateButtonPin;
+	return ChangeStateButtonPin;
 }
 
 const int & HWconfiguration::getSelectButtonPin()
 {
-	return selectButtonPin;
+	return SelectButtonPin;
 }
 
 const int & HWconfiguration::getSetButtonPin()
 {
-	return setButtonPin;
+	return SetButtonPin;
 }
 const int & HWconfiguration::getDimIndicatorPin()
 {
-	return dimIndicatorPin;
+	return DimIndicatorPin;
 }
 
 const int & HWconfiguration::getDeviceStatusLedPin()
 {
-	return deviceStatusLedPin;
+	return DeviceStatusLedPin;
 }
 
 const int & HWconfiguration::getLcdLedPwrInd()
 {
-	return lcdLedPwrInd;
+	return LcdLedPwrInd;
 }

@@ -21,7 +21,7 @@ class HWconfiguration
 		const int & getFirstLCDscreenPin();
 		const int & getSensorDownPin();
 		const int & getSensorUpPin();
-		const int & getSensorLightPin(); //analog pin!
+		const int & getPhotoSensorPin(); //analog pin!
 		const int & getChangeStateButtonPin();
 		const int & getSelectButtonPin();
 		const int & getSetButtonPin();
@@ -30,19 +30,26 @@ class HWconfiguration
 		const int & getLcdLedPwrInd();
 
 	private:
-		const int nrOfSteps = 16;
-		const int firstStepPin = 22;
-		const int powerSupplierPin = 11;
-		const int firstLCDscreenPin = 14;
-		const int sensorDownPin = 20;
-		const int sensorUpPin = 21;
-		const int sensorLightPin = 0; //analog pin!
-		const int changeStateButtonPin = 2;
-		const int selectButtonPin = 3;
-		const int setButtonPin = 4;
-		const int dimIndicatorPin = 13;		//12
-		const int deviceStatusLedPin = 12;	//13
-		const int lcdLedPwrInd = 10; 
+		const int NrOfSteps = 16;
+
+		const int FirstStepPin = 22;
+		const int FirstLCDscreenPin = 14;
+
+		const int PhotoSensorPin = 0; //analog pin!
+		const int ChangeStateButtonPin = 2;
+		const int SelectButtonPin = 3;
+		const int SetButtonPin = 4;
+		const int LcdLedPwrInd = 10;
+		const int DimIndicatorPin = 11;
+		const int PowerSupplierPin = 12;
+		const int DeviceStatusLedPin = 13;		
+		const int SensorDownPin = 20;
+		const int SensorUpPin = 21;
+		
+		
+		
+		
+		
 };
 
 #endif

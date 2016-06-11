@@ -69,6 +69,9 @@
     <ClInclude Include="HWconfiguration.h">
       <Filter>Header Files\Params</Filter>
     </ClInclude>
+    <ClInclude Include="PhotoSensor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Lights.cpp">
@@ -106,6 +109,9 @@
     </ClCompile>
     <ClCompile Include="HWconfiguration.cpp">
       <Filter>Source Files\Params</Filter>
+    </ClCompile>
+    <ClCompile Include="PhotoSensor.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
