@@ -128,6 +128,22 @@ void putToConfigurationState()
 	menu->loadParameters();
 	delay(1500);
 	menu->refreshScreen();
+
+	//odczyt wartosci z fotorezystora na potrzeby testu
+	//pinMode(0, INPUT); 
+	//volatile int val;
+	//while (true)
+	//{
+	//	lcdScreen->clear();
+	//	val = analogRead(0);
+	//	lcdScreen->print(val);
+	//	if (val < conf->getBrightnessThreshold())
+	//		dimIndicator->on();
+	//	else
+	//		dimIndicator->off();
+	//	delay(500);
+	//}
+	
 }
 
 void putToWorkingState()

@@ -40,8 +40,8 @@ class HWconfiguration
 		const int changeStateButtonPin = 2;
 		const int selectButtonPin = 3;
 		const int setButtonPin = 4;
-		const int dimIndicatorPin = 12;
-		const int deviceStatusLedPin = 13;
+		const int dimIndicatorPin = 13;		//12
+		const int deviceStatusLedPin = 12;	//13
 		const int lcdLedPwrInd = 10; 
 };
 

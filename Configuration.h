@@ -47,7 +47,8 @@ class Configuration
 		int turnOffMode_Up = 2;						//tryb
 		int turnOffStepDelay = 200;					//delay przy wylaczaniu
 		int litTime = 3000;							//czas swiecenia po pelnym zapaleniu
-		int brightnessThreshold = 500;				//dla zapalania zmierzchowego
+		int brightnessThreshold = 300;				//dla zapalania zmierzchowego
+		int brightnessOffset = 50;					//np. zapala przy 300, gasi przy 350
 
 		//stale
 		const int NrOfOptionsInMenu = 8;			//ilosc opcji
@@ -57,9 +58,9 @@ class Configuration
 		const int MinLitTime = 2000;				//min czas swiecenia	
 		const int MaxLitTime = 10000;				//max czas swiecenia
 		const int LitTimeStep = 1000;				//ktok dla zmiany lit time
-		const int MinBrightness = 100;				//minimanlna wartosc progu jasnosci
-		const int MaxBrightness = 1000;				//maxymalna wartosc progu jasnosci
-		const int BrightnessStep = 50;				//krok dla zmiany progu jasnosci
+		const int MinBrightness = 20;				//minimanlna wartosc progu jasnosci
+		const int MaxBrightness = 500;				//maxymalna wartosc progu jasnosci
+		const int BrightnessStep = 20;				//krok dla zmiany progu jasnosci
 		const int ModeStep = 1;						//krok dla zmiany trybu
 		const int NrOfAvailableModes = 3;			//ilosc trybow dla wl/wyl
 };
