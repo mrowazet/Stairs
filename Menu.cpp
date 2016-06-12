@@ -37,6 +37,11 @@ void Menu::refreshScreen()
 	lcd->print(menu[selectedOptionIndex]->getValue());
 }
 
+void Menu::resetCurrentOptionIndex()
+{
+	selectedOptionIndex = 0;
+}
+
 void Menu::loadParameters()
 {
 	menu[menuOrder->TurnOnMode_Down]->setValue(conf->getTurnOnMode_Down());
@@ -114,9 +119,4 @@ void Menu::init()
 	menu[index] = new ConfParam(conf->BrightnessOffsetStep, conf->MinBrightnessOffset, conf->MaxBrightnessOffset);
 	menu[index]->setLabel("Zm. offset:");
 	menu[index]->setValue(conf->brightnessOffset);
-}
-
-void Menu::resetCurrentOptionIndex()
-{
-	selectedOptionIndex = 0;
 }

@@ -50,11 +50,13 @@ void wait(const int & illuminationTime); //z zachowaniem responsywnosci
 void setup()
 {	
 	initController();
+	applyChanges();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // MAIN LOOP
 void loop()
 {
+	//Working
 	while (ctrlState == ControllerState::Working)
 	{		
 		if (buttonClicked(hwcfg->getChangeStateButtonPin()))
@@ -81,7 +83,7 @@ void loop()
 		setDimIndicator();
 	}//end of while Working
 
-
+	//Configuration
 	while (ctrlState == ControllerState::Configuration)
 	{
 		if (buttonClicked(hwcfg->getChangeStateButtonPin()))
@@ -91,8 +93,7 @@ void loop()
 			menu->changeOption();
 
 		if (buttonClicked(hwcfg->getSetButtonPin()))
-			menu->changeValue();
-		
+			menu->changeValue();			
 	}//end of while Configuration
 }
 
@@ -135,16 +136,15 @@ void putToConfigurationState()
 	menu->refreshScreen();
 
 	//odczyt wartosci z fotorezystora na potrzeby testu
-	/*volatile int val;
-	while (true)
-	{
-		val = photoSensor->getBrightnessValue();
-		lcdScreen->clear();
-		lcdScreen->print(val);
-		setDimIndicator();
-		delay(500);
-	}*/
-	
+	//volatile int val;
+	//while (true)
+	//{
+	//	val = photoSensor->getBrightnessValue();
+	//	lcdScreen->clear();
+	//	lcdScreen->print(val);
+	//	setDimIndicator();
+	//	delay(1000);
+	//}
 }
 
 void putToWorkingState()
